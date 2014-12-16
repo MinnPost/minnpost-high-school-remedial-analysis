@@ -19,8 +19,8 @@ sleds$remedial <- as.numeric(as.character(sleds$remedial))
 
 
 #percent of grads needing developmental ed
-sleds$pct.remedial.grads <- sleds$remedial / sleds$grads
-sleds$pct.remedial.enrollees <- sleds$remedial / sleds$college
+sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
+sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
 ```
 
 Now look at TC high schools
@@ -56,23 +56,18 @@ graddata <- read.csv("../build/2012-grad-data.csv", stringsAsFactors = FALSE)
 
 createid <- function(dist, type, school) {
   #district
-  dist <- paste(paste(replicate(4-nchar(dist), "0"), collapse=""), dist, sep="")
+  a <- ifelse(nchar(dist) < 4, paste(paste(replicate(4-nchar(dist), "0"), collapse=""), dist, sep=""), dist)
 
   #district type
-  type <- paste(paste(replicate(2-nchar(type), "0"), collapse=""), type, sep="")
+  b <- ifelse(nchar(type) < 2, paste(paste(replicate(2-nchar(type), "0"), collapse=""), type, sep=""), type)
 
   #school
-  school <- paste(paste(replicate(3-nchar(school), "0"), collapse=""), school, sep="")
+  c <- ifelse(nchar(school) < 3, paste(paste(replicate(3-nchar(school), "0"), collapse=""), school, sep=""), school)
 
-  result = paste(dist, type, school, sep = "-", collapse = "")
-
+  result = paste(a, b, c, sep = "-", collapse = "")
   return(result)
 }
 
-graddata$District.Number <- toString(graddata$District.Number)
-graddata$District.Type <- toString(graddata$District.Type)
-graddata$School.Number <- toString(graddata$School.Number)
-
-graddata$school.id <- createid(graddata$District.Number, graddata$District.Type, graddata$School.Number)
+graddata$school.id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
 
 ```
