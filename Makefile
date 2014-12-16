@@ -12,7 +12,7 @@ build := $(data)/build
 processing := $(data)/processing
 
 # Scripts
-script_tracts := $(processing)/some-data-processing-script.js
+script_combine := $(processing)/combine.js
 
 # Sources
 # http://www.mngeo.state.mn.us/chouse/metadata/schools1112.html
@@ -26,6 +26,8 @@ local_schools_shp := $(original)/schools1112-2012/schools1112.shp
 # Converted
 build_schools_sleds := $(build)/2014-sleds.csv
 build_schools_grad := $(build)/2014-grad-data.csv
+build_schools_analysis_csv := $(build)/school-remedial-and-grad-rates.csv
+build_schools_analysis_json := $(build)/school-remedial-and-grad-rates.json
 build_schools_geo := $(build)/schools-locations.geo.json
 
 # Final
@@ -55,14 +57,17 @@ $(build_schools_geo): $(local_schools_shp)
 	mkdir -p $(build)
 	ogr2ogr -f "GeoJSON" $(build_schools_geo) $(local_schools_shp) -t_srs "EPSG:4326"
 
-convert: $(build_schools_geo)
+$(build_schools_analysis_json): $(build_schools_analysis_csv)
+	csvjson $(build_schools_analysis_csv) --key="id" > $(build_schools_analysis_json)
+
+convert: $(build_schools_geo) $(build_schools_analysis_json)
 clean_convert:
-	rm -rvf $(build_schools_geo)
+	rm -rvf $(build_schools_geo) $(build_schools_analysis_json)
 
 
 # Final processing
-$(schools): $(build_schools_geo)
-	cp $(build_schools_geo) $(schools)
+$(schools): $(build_schools_geo) $(build_schools_analysis_json)
+	node $(script_combine)
 
 process: $(schools)
 clean_process:
