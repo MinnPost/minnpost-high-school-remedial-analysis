@@ -43,6 +43,7 @@ require([
       this.schools.features = _.sample(this.schools.features, 50);
       this.schools.features = _.map(this.schools.features, function(f, fi) {
         f.properties.remedialScore = Math.random();
+        f.properties.id = f.properties.ORGID;
         return f;
       });
       // Sort data
@@ -63,16 +64,30 @@ require([
         el: this.$el,
         template: tApplication,
         data: {
+          f: mpFormatters
         },
         partials: {
         }
       });
 
       // Render inital parts
-      thisApp.drawCharts();
-      thisApp.drawMaps();
+      this.drawCharts();
+      this.drawMaps();
 
       // Handle events
+      this.mainView.observe('selectedSchoolID', function(n, o) {
+        var found = _.find(thisApp.schools.features, function(f, fi) {
+          return (!!n && f.properties.id === n);
+        });
+
+        if (found) {
+          // Get data for school
+          this.set('selectedSchool', found);
+          // Update chart
+
+          // Update map
+        }
+      });
     },
 
     // Draw charts
@@ -134,6 +149,9 @@ require([
             thisApp.tooltipControl.hide();
           });
           // Show details on click
+          layer.on('click', function(e) {
+            thisApp.mainView.set('selectedSchoolID', feature.properties.id);
+          });
         }
       }).addTo(this.map);
 

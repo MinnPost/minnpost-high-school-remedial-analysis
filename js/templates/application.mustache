@@ -9,7 +9,15 @@
       </div>
 
       <div class="column-small-100 column-medium-33">
-        <em class="small">Click or tap on school to see details</em>
+        {{^selectedSchool}}
+          <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>
+        {{/selectedSchool}}
+
+        {{#selectedSchool}}
+          <div class="component-label">{{ properties.SCHNAME }}</div>
+
+          <div class="xlarge">{{ f.percent(properties.remedialScore, 1) }}</div>
+        {{/selectedSchool}}
       </div>
     </div>
 
