@@ -1,0 +1,79 @@
+---
+title: "SLEDS"
+author: "Tom Nehil"
+date: "December 15, 2014"
+output: html_document
+---
+```{r}
+library(reshape)
+```
+
+
+```{r}
+sleds <- read.csv("2014-sleds.csv", stringsAsFactors = TRUE)
+
+#introduce NAs for less than ten schools so we can ignore them
+sleds$grads <- as.numeric(as.character(sleds$grads))
+sleds$college <- as.numeric(as.character(sleds$college))
+sleds$remedial <- as.numeric(as.character(sleds$remedial))
+
+
+#percent of grads needing developmental ed
+sleds$pct.remedial.grads <- sleds$remedial / sleds$grads
+sleds$pct.remedial.enrollees <- sleds$remedial / sleds$college
+```
+
+Now look at TC high schools
+
+```{r}
+tcschools <- c(  "0001-03-352", #edison
+                 "0001-03-354", #henry
+                 "0001-03-358", #north
+                 "0001-03-360", #roosevelt
+                 "0001-03-362", #south
+                 "0001-03-364", #southwest
+                 "0001-03-368", #washburn
+                 "0625-01-240", #arlington
+                 "0625-01-210", #central
+                 "0625-01-212", #como park
+                 "0625-01-215", #harding
+                 "0625-01-220", #highland park
+                 "0625-01-230") #johnson
+
+tcgrads <- subset(sleds, id %in% tcschools)
+
+#reshape to give yearly rates
+tcgrads.byyear <- cast(tcgrads, id ~ year)
+
+#calculate mean for each school
+tcgrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
+```
+
+Add in graduate data
+
+```{r}
+graddata <- read.csv("2012-grad-data.csv", stringsAsFactors = FALSE)
+
+createid <- function(dist, type, school) {
+  #district
+  dist <- paste(paste(replicate(4-nchar(dist), "0"), collapse=""), dist, sep="")
+  
+  #district type
+  type <- paste(paste(replicate(2-nchar(type), "0"), collapse=""), type, sep="")
+  
+  #school
+  school <- paste(paste(replicate(3-nchar(school), "0"), collapse=""), school, sep="")
+  
+  result = paste(dist, type, school, sep = "-", collapse = "")
+  
+  return(result)
+}
+
+graddata$District.Number <- toString(graddata$District.Number)
+graddata$District.Type <- toString(graddata$District.Type)
+graddata$School.Number <- toString(graddata$School.Number)
+
+graddata$school.id <- createid(graddata$District.Number, graddata$District.Type, graddata$School.Number)
+
+```
+
