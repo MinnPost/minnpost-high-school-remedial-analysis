@@ -10,7 +10,7 @@ library(reshape)
 
 
 ```{r}
-sleds <- read.csv("2014-sleds.csv", stringsAsFactors = TRUE)
+sleds <- read.csv("../build/2014-sleds.csv", stringsAsFactors = TRUE)
 
 #introduce NAs for less than ten schools so we can ignore them
 sleds$grads <- as.numeric(as.character(sleds$grads))
@@ -52,20 +52,20 @@ tcgrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
 Add in graduate data
 
 ```{r}
-graddata <- read.csv("2012-grad-data.csv", stringsAsFactors = FALSE)
+graddata <- read.csv("../build/2012-grad-data.csv", stringsAsFactors = FALSE)
 
 createid <- function(dist, type, school) {
   #district
   dist <- paste(paste(replicate(4-nchar(dist), "0"), collapse=""), dist, sep="")
-  
+
   #district type
   type <- paste(paste(replicate(2-nchar(type), "0"), collapse=""), type, sep="")
-  
+
   #school
   school <- paste(paste(replicate(3-nchar(school), "0"), collapse=""), school, sep="")
-  
+
   result = paste(dist, type, school, sep = "-", collapse = "")
-  
+
   return(result)
 }
 
@@ -76,4 +76,3 @@ graddata$School.Number <- toString(graddata$School.Number)
 graddata$school.id <- createid(graddata$District.Number, graddata$District.Type, graddata$School.Number)
 
 ```
-
