@@ -10,7 +10,9 @@ You can see this project in action at *[published story link goes here]()*.
 
 ## Data
 
-*Describe the data sources here.  Use links and URLs to show where the data came from.  Put small sized originals or modified data sources in the ```data/original``` folder and ensure to update the `.gitignore` file*
+* Geographical location data for schools provided by [MN Geo](http://www.mngeo.state.mn.us/chouse/metadata/schools1112.html).
+* SLEDS?
+* National ed?
 
 ## Development and running locally
 
@@ -24,8 +26,6 @@ All commands are assumed to be on the [command line](http://en.wikipedia.org/wik
     * On a Mac, do: `brew install node`
 1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 1. Install [Bower](http://bower.io/): `npm install -g bower`
-
-
 1. Install [Sass](http://sass-lang.com/): `gem install sass`
     * On a Mac do: `sudo gem install sass`
 1. Install [Compass](http://compass-style.org/): `gem install compass`
@@ -40,11 +40,9 @@ Get the code for this project and install the necessary dependency libraries and
 1. Install NodeJS packages: `npm install`
 1. Install Bower components: `bower install`
 
-
-
 ### Data processing
 
-The `Makefile` runs tasks such as downloading sources and converting data.
+The `Makefile` runs tasks such as downloading sources and converting data.  Do note that some data was manually downloaded and minor formatting was manually done on it.
 
 1. Run: `make all`
 

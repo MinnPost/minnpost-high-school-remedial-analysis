@@ -15,44 +15,53 @@ processing := $(data)/processing
 script_tracts := $(processing)/some-data-processing-script.js
 
 # Sources
-source_example := ftp://gisftp.metc.state.mn.us/PlannedTransitwayAlignments.zip
+# http://www.mngeo.state.mn.us/chouse/metadata/schools1112.html
+source_schools := ftp://ftp.lmic.state.mn.us/pub/data/admin_poli/schools1112.zip
 
 # Local sources
-local_example := $(original)/planned-transitways.zip
-local_example_dir := $(original)/planned-transitways/
-local_example_shp := $(original)/planned-transitways/PlannedTransitwayAlignments.shp
+local_schools := $(original)/schools1112-2012.zip
+local_schools_dir := $(original)/schools1112-2012/
+local_schools_shp := $(original)/schools1112-2012/schools1112.shp
 
 # Converted
-build_example := $(build)/swlrt-route.geo.json
+build_schools_sleds := $(build)/2014-sleds.csv
+build_schools_grad := $(build)/2014-grad-data.csv
+build_schools_geo := $(build)/schools-locations.geo.json
 
 # Final
-example := $(data)/swlrt-route.geo.json
+schools := $(data)/schools.geo.json
 
 
+# The SLEDS and National data were downloaded manually
 
 # Download and unzip sources.  Touch shapefile so that make knows it it
 # up to date
-$(local_example_shp):
+$(local_schools_shp):
 	mkdir -p $(original)
-	curl -o $(local_example) "$(source_example)"
-	unzip $(local_example) -d $(local_example_dir)
-	touch $(local_example_shp)
+	curl -o $(local_schools) "$(source_schools)"
+	unzip $(local_schools) -d $(local_schools_dir)
+	touch $(local_schools_shp)
 
-download: $(local_routes_shp)
+download: $(local_schools_shp)
 clean_download:
-	rm -rv $(original)/*
+	rm -rvf $(local_schools) $(local_schools_dir)
 
 
-# Convert and filter data files
-$(example): $(local_example_shp)
+# The SLEDS and National Excel files were manually converted to CSV and
+# some minor formatting changes were made
+
+# Convert geo data
+$(build_schools_geo): $(local_schools_shp)
 	mkdir -p $(build)
-	ogr2ogr -f "GeoJSON" $(build_example) $(local_example_shp) -overwrite -where "NAME = 'Southwest LRT'" -t_srs "EPSG:4326"
-	cp $(build_example) $(example)
+	ogr2ogr -f "GeoJSON" $(build_schools_geo) $(local_schools_shp) -t_srs "EPSG:4326"
 
-convert: $(example)
+convert: $(build_schools_geo)
 clean_convert:
-	rm -rv $(build)/*
-	rm -rv $(example)
+	rm -rvf $(build_schools_geo)
+
+
+# Final processing
+
 
 
 # General
