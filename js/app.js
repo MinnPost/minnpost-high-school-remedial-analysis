@@ -12,14 +12,19 @@ require([
   'leaflet', 'highcharts', 'highchartsMore',
   'mpConfig', 'mpFormatters', 'mpHighcharts', 'mpMaps',
   'base',
-  'text!templates/application.mustache'
+  'text!templates/application.mustache',
+  'text!../data/schools.geo.json'
 ], function(
   $, _, Backbone, Lazyload, Ractive, RactiveBackbone, RactiveEventsTap,
   L, Highcharts, HM, mpConfig, mpFormatters, mpHighcharts, mpMaps,
   Base,
-  tApplication
+  tApplication,
+  dSchoolsGeo
   ) {
   'use strict';
+
+  // Convert data to actual JSON
+  dSchoolsGeo = JSON.parse(dSchoolsGeo);
 
   // Create new class for app
   var App = Base.BaseApp.extend({
@@ -32,6 +37,15 @@ require([
     initialize: function() {
       var thisApp = this;
 
+      // Attach data to app
+      this.schools = dSchoolsGeo;
+      // Add some example data
+      this.schools.features = _.sample(this.schools.features, 50);
+      this.schools.features = _.map(this.schools.features, function(f, fi) {
+        f.properties.remedialScore = Math.random();
+        return f;
+      });
+
       // TODO: Use a router so people can link to specific schools
 
       // Create main application view
@@ -39,42 +53,35 @@ require([
         el: this.$el,
         template: tApplication,
         data: {
-          dataLoaded: true
         },
         partials: {
         }
       });
 
-      // Render when data is loaded
-      this.mainView.observe('dataLoaded', function(n, o) {
-        if (!_.isUndefined(n) && n === true) {
-          thisApp.drawCharts();
-          thisApp.drawMaps();
-        }
-      });
+      // Render inital parts
+      thisApp.drawCharts();
+      thisApp.drawMaps();
 
-      // Get data
+      // Handle events
     },
 
     // Draw charts
     drawCharts: function() {
-
-      var exampleData = [{
-        name: 'Example',
-        data: [
-          ['School 1', 4],
-          ['School 2', 5],
-          ['School 3', 6],
-          ['School 4', 7],
-          ['School 5', 8]
-        ]
+      this.chartData = [{
+        name: 'Schools',
+        data: _.map(this.schools.features, function(f, fi) {
+          return {
+            name: f.properties.SCHNAME,
+            y: f.properties.remedialScore
+          };
+        })
       }];
 
       // Column chart
       mpHighcharts.makeChart(this.$('.schools-chart'),
         $.extend(true, {}, mpHighcharts.columnOptions, {
           colors: mpConfig['colors-data'][0],
-          series: exampleData,
+          series: this.chartData,
           legend: { enabled: false }
         }
       ));
@@ -82,39 +89,38 @@ require([
 
     // Draw map
     drawMaps: function() {
-      var markerMap = mpMaps.makeLeafletMap('schools-map');
-      var tooltipControl = new mpMaps.TooltipControl();
-      markerMap.setZoom(9);
-      markerMap.addControl(tooltipControl);
+      var thisApp = this;
+      this.map = mpMaps.makeLeafletMap('schools-map');
+      this.tooltipControl = new mpMaps.TooltipControl();
+      this.map.setZoom(9);
+      this.map.addControl(this.tooltipControl);
 
-      // Markers
-      var iconCinema = mpMaps.makeMakiIcon('cinema', 'm');
-      var iconBlank = mpMaps.makeMakiIcon('', 's', '222222');
-      L.marker(mpMaps.minneapolisPoint, { icon: iconCinema })
-        .addTo(markerMap).bindPopup('Minneapolis', {
-          closeButton: false
-        });
-      L.marker(mpMaps.stPaulPoint, { icon: iconBlank })
-        .addTo(markerMap).bindPopup('St. Paul', {
-          closeButton: false
-        });
+      // Geojson
+      this.schoolMapLayer = L.geoJson(this.schools, {
+        // Make points circle markers
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng, {
+            radius: 8
+          });
+        },
+        // Style accordingly
+        style: function(feature) {
+          return _.extend(mpMaps.mapStyle, {
 
-      // GeoJSON example
-      $.getJSON('//boundaries.minnpost.com/1.0/boundary/27-county-2010/?callback=?', function(data) {
-        if (data.simple_shape) {
-          L.geoJson(data.simple_shape, {
-            style: mpMaps.mapStyle,
-            onEachFeature: function(feature, layer) {
-              layer.on('mouseover', function(e) {
-                tooltipControl.update('Hennepin County');
-              });
-              layer.on('mouseout', function(e) {
-                tooltipControl.hide();
-              });
-            }
-          }).addTo(markerMap);
+          });
+        },
+        // Events
+        onEachFeature: function(feature, layer) {
+          // Show name on hover
+          layer.on('mouseover', function(e) {
+            thisApp.tooltipControl.update(feature.properties.SCHNAME);
+          });
+          layer.on('mouseout', function(e) {
+            thisApp.tooltipControl.hide();
+          });
+          // Show details on click
         }
-      });
+      }).addTo(this.map);
 
     },
 
