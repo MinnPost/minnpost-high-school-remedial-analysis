@@ -15,8 +15,16 @@ body .node-unpublished {
     padding-top: 3em;
   }
 
+  .space-bottom {
+    margin-bottom: 1em;
+  }
+
   .schools-chart {
-    height: 10em;
+    height: 15em;
+  }
+
+  #schools-map {
+    height: 35em;
   }
 
   // Default responsive points

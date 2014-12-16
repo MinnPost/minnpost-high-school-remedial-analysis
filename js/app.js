@@ -13,15 +13,19 @@ require([
   'mpConfig', 'mpFormatters', 'mpHighcharts', 'mpMaps',
   'base',
   'text!templates/application.mustache',
+  'text!templates/tooltip-chart.underscore',
   'text!../data/schools.geo.json'
 ], function(
   $, _, Backbone, Lazyload, Ractive, RactiveBackbone, RactiveEventsTap,
   L, Highcharts, HM, chroma, mpConfig, mpFormatters, mpHighcharts, mpMaps,
   Base,
-  tApplication,
+  tApplication, tTooltipChart,
   dSchoolsGeo
   ) {
   'use strict';
+
+  // Convert underscore templates
+  tTooltipChart = _.template(tTooltipChart);
 
   // Convert data to actual JSON
   dSchoolsGeo = JSON.parse(dSchoolsGeo);
@@ -39,23 +43,18 @@ require([
 
       // Attach data to app
       this.schools = dSchoolsGeo;
-      // Add some example data
-      this.schools.features = _.sample(this.schools.features, 50);
-      this.schools.features = _.map(this.schools.features, function(f, fi) {
-        f.properties.remedialScore = Math.random();
-        f.properties.id = f.properties.ORGID;
-        return f;
-      });
       // Sort data
       this.schools.features = _.sortBy(this.schools.features, function(f, fi) {
-        return f.properties.remedialScore;
+        return f.properties.remMean;
       });
 
       // Make color scale, using diverging
       this.colorScale = chroma.scale([
-        mpConfig['colors-data'].blue1,
-        mpConfig['colors-data'].orange
-      ]).mode('hsl').domain([0, 1], 7);
+        mpConfig['colors-data'].green1,
+        mpConfig['colors-data'].blue1
+      ]).mode('hsl').domain(_.map(this.schools.features, function(f, fi) {
+        return f.properties.remMean;
+      }), 5);
 
       // TODO: Use a router so people can link to specific schools
 
@@ -99,20 +98,61 @@ require([
         color: mpConfig['colors-data'].blue1,
         data: _.map(this.schools.features, function(f, fi) {
           return {
-            name: f.properties.SCHNAME,
-            y: f.properties.remedialScore,
-            color: thisApp.colorScale(f.properties.remedialScore).hex()
+            id: f.properties.id,
+            name: f.properties.name,
+            y: f.properties.remMean * 100,
+            remMean: f.properties.remMean,
+            color: thisApp.colorScale(f.properties.remMean).hex()
           };
         })
       }];
 
       // Column chart
-      mpHighcharts.makeChart(this.$('.schools-chart'),
+      this.schoolsChart = mpHighcharts.makeChart(this.$('.schools-chart'),
         $.extend(true, {}, mpHighcharts.columnOptions, {
           series: this.chartData,
-          legend: { enabled: false }
-        }
-      ));
+          legend: { enabled: false },
+          yAxis: {
+            opposite: true,
+            title: {
+              text: '% of enrollees'
+            }
+          },
+          xAxis: {
+            type: 'category',
+            labels: {
+              rotation: -45
+            }
+          },
+          tooltip: {
+            formatter: function() {
+              return tTooltipChart({
+                p: this.point,
+                f: mpFormatters
+              });
+            }
+          },
+          plotOptions: {
+            series: {
+              cursor: 'pointer',
+              point: {
+                events: {
+                  click: function() {
+                    thisApp.mainView.set('selectedSchoolID', this.id);
+
+                    /*
+                    _.each(this.series.data)
+                      this.series.data[i].update({ color: '#ECB631' }, true, false);
+                    }
+                    this.update({ color: '#f00' }, true, false)
+                    */
+                  }
+                }
+              }
+            }
+          }
+        })
+      );
     },
 
     // Draw map
@@ -133,17 +173,22 @@ require([
         },
         // Style accordingly
         style: function(feature) {
+          var color = thisApp.colorScale(feature.properties.remMean).hex();
+
           return _.extend(mpMaps.mapStyle, {
-            fillColor: thisApp.colorScale(feature.properties.remedialScore).hex(),
+            fillColor: color,
             fillOpacity: 0.8,
-            stroke: false
+            stroke: true,
+            color: color,
+            weight: 5,
+            opacity: 0.2
           });
         },
         // Events
         onEachFeature: function(feature, layer) {
           // Show name on hover
           layer.on('mouseover', function(e) {
-            thisApp.tooltipControl.update(feature.properties.SCHNAME);
+            thisApp.tooltipControl.update(feature.properties.name);
           });
           layer.on('mouseout', function(e) {
             thisApp.tooltipControl.hide();
@@ -154,6 +199,11 @@ require([
           });
         }
       }).addTo(this.map);
+
+      // Fit in
+      this.map.fitBounds(this.schoolMapLayer.getBounds(), {
+        reset: true
+      });
 
     },
 

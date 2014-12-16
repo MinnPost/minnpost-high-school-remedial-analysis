@@ -14,9 +14,18 @@
         {{/selectedSchool}}
 
         {{#selectedSchool}}
-          <div class="component-label">{{ properties.SCHNAME }}</div>
+          <div class="component-label">{{ properties.name }}</div>
 
-          <div class="xlarge">{{ f.percent(properties.remedialScore, 1) }}</div>
+          <div><em class="small">7-year mean</em></div>
+          <div class="xlarge space-bottom">{{ f.percent(properties.remMean, 0) }}</div>
+
+          <div><em class="small">Graduation rate</em></div>
+          <div class="large space-bottom">{{ f.percent(properties.grad_rate, 0) }}</div>
+
+          <div class="small">
+            {{ properties.district_name }} school district.<br>
+            {{ properties.address }}
+          </div>
         {{/selectedSchool}}
       </div>
     </div>
