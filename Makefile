@@ -61,9 +61,14 @@ clean_convert:
 
 
 # Final processing
+$(schools): $(build_schools_geo)
+	cp $(build_schools_geo) $(schools)
 
+process: $(schools)
+clean_process:
+	rm -rvf $(schools)
 
 
 # General
-all: convert
-clean: clean_download clean_convert
+all: process
+clean: clean_download clean_convert clean_process
