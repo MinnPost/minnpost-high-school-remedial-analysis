@@ -17,8 +17,7 @@ sleds$grads <- as.numeric(as.character(sleds$grads))
 sleds$college <- as.numeric(as.character(sleds$college))
 sleds$remedial <- as.numeric(as.character(sleds$remedial))
 
-
-#percent of grads needing developmental ed
+#percent of grads and college enrollees needing developmental ed
 sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
 sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
 ```
@@ -33,7 +32,7 @@ tcschools <- c(  "0001-03-352", #edison
                  "0001-03-362", #south
                  "0001-03-364", #southwest
                  "0001-03-368", #washburn
-                 "0625-01-240", #arlington
+                 #"0625-01-240", cutting arlington since it closed
                  "0625-01-210", #central
                  "0625-01-212", #como park
                  "0625-01-215", #harding
@@ -47,6 +46,7 @@ tcgrads.byyear <- cast(tcgrads, id ~ year)
 
 #calculate mean for each school
 tcgrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
+tcgrads.byyear$mean <- round(tcgrads.byyear$mean, 2)
 ```
 
 Add in graduate data
@@ -68,6 +68,29 @@ createid <- function(dist, type, school) {
   return(result)
 }
 
-graddata$school.id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
+#Apply createid function to each row (combines three fields to match ids in SLEDS)
+graddata$id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
 
+
+#filter down to TC schools
+tc.graddata <- subset(graddata, id %in% tcschools & Demographic.Group == "All Students" & Ending.Status == "Graduate")[c('id','Four..Year.Percent','School.Name')]
+
+#rename Grad rate column to be more clear in merged data
+tc.graddata <- rename(tc.graddata, c('Four..Year.Percent' = 'grad.rate'))
+
+#format grad.rate to match rates in rest of data
+tc.graddata$grad.rate <- round(tc.graddata$grad.rate/100,2)
+
+#add grad data to byyear data frame
+tcgrads.byyear <- merge(tc.graddata,tcgrads.byyear, key="id", all.x=T, sort=F)
+
+#reorder columns
+tcgrads.byyear <- tcgrads.byyear[,c('id','School.Name','2006','2007','2008','2009','2010','2011','2012','mean','grad.rate')]
 ```
+
+Now save the result to a CSV!
+
+```{r}
+write.csv(tcgrads.byyear, file="../build/school-remedial-and-grad-rates.csv", na='', row.names=F)
+```
+

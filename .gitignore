@@ -1,10 +1,11 @@
 # Data sources and builds (except for non-dowloadable sources)
 data/original/*
-data/build
+#data/build
 !data/original/2012 GraduationIndicators.xlsx
 !data/original/GettingPrepared2014Appendices.xlsx
 !data/build/2012-grad-data.csv
 !data/build/2012-sleds.csv
+!data/build/school-remedial-and-grad-rates.csv
 
 # Unnecssary dist parts
 dist/data.js
