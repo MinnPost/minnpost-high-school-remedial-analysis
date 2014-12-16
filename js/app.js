@@ -9,14 +9,14 @@
 require([
   'jquery', 'underscore', 'backbone', 'lazyload',
   'ractive', 'ractive-backbone', 'ractive-events-tap',
-  'leaflet', 'highcharts', 'highchartsMore',
+  'leaflet', 'highcharts', 'highchartsMore', 'chroma',
   'mpConfig', 'mpFormatters', 'mpHighcharts', 'mpMaps',
   'base',
   'text!templates/application.mustache',
   'text!../data/schools.geo.json'
 ], function(
   $, _, Backbone, Lazyload, Ractive, RactiveBackbone, RactiveEventsTap,
-  L, Highcharts, HM, mpConfig, mpFormatters, mpHighcharts, mpMaps,
+  L, Highcharts, HM, chroma, mpConfig, mpFormatters, mpHighcharts, mpMaps,
   Base,
   tApplication,
   dSchoolsGeo
@@ -45,6 +45,16 @@ require([
         f.properties.remedialScore = Math.random();
         return f;
       });
+      // Sort data
+      this.schools.features = _.sortBy(this.schools.features, function(f, fi) {
+        return f.properties.remedialScore;
+      });
+
+      // Make color scale, using diverging
+      this.colorScale = chroma.scale([
+        mpConfig['colors-data'].blue1,
+        mpConfig['colors-data'].orange
+      ]).mode('hsl').domain([0, 1], 7);
 
       // TODO: Use a router so people can link to specific schools
 
@@ -67,12 +77,16 @@ require([
 
     // Draw charts
     drawCharts: function() {
+      var thisApp = this;
+
       this.chartData = [{
         name: 'Schools',
+        color: mpConfig['colors-data'].blue1,
         data: _.map(this.schools.features, function(f, fi) {
           return {
             name: f.properties.SCHNAME,
-            y: f.properties.remedialScore
+            y: f.properties.remedialScore,
+            color: thisApp.colorScale(f.properties.remedialScore).hex()
           };
         })
       }];
@@ -80,7 +94,6 @@ require([
       // Column chart
       mpHighcharts.makeChart(this.$('.schools-chart'),
         $.extend(true, {}, mpHighcharts.columnOptions, {
-          colors: mpConfig['colors-data'][0],
           series: this.chartData,
           legend: { enabled: false }
         }
@@ -106,7 +119,9 @@ require([
         // Style accordingly
         style: function(feature) {
           return _.extend(mpMaps.mapStyle, {
-
+            fillColor: thisApp.colorScale(feature.properties.remedialScore).hex(),
+            fillOpacity: 0.8,
+            stroke: false
           });
         },
         // Events

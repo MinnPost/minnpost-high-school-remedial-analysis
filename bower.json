@@ -27,7 +27,8 @@
     "jquery": "~1.11.1",
     "backbone": "~1.1.2",
     "rgrove-lazyload": "*",
-    "minnpost-styles": "master"
+    "minnpost-styles": "master",
+    "chroma-js": "~0.6.1"
   },
   "devDependencies": {
     "qunit": "~1.15.0"
@@ -126,6 +127,13 @@
         "highcharts-release/highcharts-more.src"
       ],
       "returns": "HighchartsMore"
+    },
+    "chroma-js": {
+      "rname": "chroma",
+      "js": [
+        "chroma-js/chroma"
+      ],
+      "returns": "chroma"
     },
     "minnpost-styles": {
       "rname": "mpStyles",

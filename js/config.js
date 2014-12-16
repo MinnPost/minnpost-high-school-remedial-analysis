@@ -45,7 +45,7 @@ require.config({
     'leaflet': '../bower_components/leaflet/dist/leaflet-src',
     'highcharts': '../bower_components/highcharts-release/highcharts.src',
     'highchartsMore': '../bower_components/highcharts-release/highcharts-more.src',
-    'jqueryCSV': '../bower_components/jquery-csv/src/jquery.csv',
+    'chroma': '../bower_components/chroma-js/chroma',
     'mpConfig': '../bower_components/minnpost-styles/dist/minnpost-styles.config',
     'mpFormatters': '../bower_components/minnpost-styles/dist/minnpost-styles.formatters',
     'mpHighcharts': '../bower_components/minnpost-styles/dist/minnpost-styles.highcharts',
