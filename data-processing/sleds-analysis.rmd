@@ -52,16 +52,28 @@ tcgrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
 Add in graduate data
 
 ```{r}
-graddata <- read.csv("2012-grad-data.csv")
+graddata <- read.csv("2012-grad-data.csv", stringsAsFactors = FALSE)
 
 createid <- function(dist, type, school) {
-  result <- ''
-  
   #district
-  dist <- paste(paste(replicate(4-length(dist), "0"), collapse=""), dist, sep"-")
+  dist <- paste(paste(replicate(4-nchar(dist), "0"), collapse=""), dist, sep="")
   
-  result = paste(result, dist, sep = "-", collapse="")
+  #district type
+  type <- paste(paste(replicate(2-nchar(type), "0"), collapse=""), type, sep="")
+  
+  #school
+  school <- paste(paste(replicate(3-nchar(school), "0"), collapse=""), school, sep="")
+  
+  result = paste(dist, type, school, sep = "-", collapse = "")
+  
+  return(result)
 }
+
+graddata$District.Number <- toString(graddata$District.Number)
+graddata$District.Type <- toString(graddata$District.Type)
+graddata$School.Number <- toString(graddata$School.Number)
+
+graddata$school.id <- createid(graddata$District.Number, graddata$District.Type, graddata$School.Number)
 
 ```
 
