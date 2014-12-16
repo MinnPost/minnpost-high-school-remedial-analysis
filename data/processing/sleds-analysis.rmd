@@ -68,6 +68,17 @@ createid <- function(dist, type, school) {
   return(result)
 }
 
-graddata$school.id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
+#Apply createid function to each row (combines three fields to match ids in SLEDS)
+
+graddata$id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
+
+
+#filter down to TC schools
+tc.graddata <- subset(graddata, id %in% tcschools & Demographic.Group == "All Students" & Ending.Status == "Graduate")[c('id','Four..Year.Percent','School.Name')]
+#rename Grad rate column to be more clear in merged data
+tc.graddata <- rename(tc.graddata, c('Four..Year.Percent' = 'grad.rate'))
+
+#add grad data to by year data frame
+tcgrads.byyear <- merge(tc.graddata,tcgrads.byyear, key="id", all.x=T, sort=F)
 
 ```
