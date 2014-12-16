@@ -3,40 +3,34 @@
 
   <div class="content-container">
 
-    <h3>Minnpost High School Remedial Analysis</h3>
+    {{^dataLoaded}}
+      <div class="loading-block"></div>
+    {{/dataLoaded}}
 
-    <div class="loading-block"></div>
+    <div class="row">
+      <div class="column-small-100 column-medium-66">
+        <div id="schools-map" class="map"></div>
+      </div>
 
-    <p>Welcome to your new MinnPost application, built from the MinnPost Templating system.  Make sure to use the <a href="http://code.minnpost.com/minnpost-styles/">MinnPost Style Guide</a> for all your styling needs.</p>
+      <div class="column-small-100 column-medium-33">
+        <em class="small">Click or tap on school to see details</em>
+      </div>
+    </div>
 
-    
-    
-    <div class="component-label">Line chart example</div>
-    <div class="caption">Here is an awesome, concise caption.</div>
-    <div class="chart chart-line-example"></div>
-
-    <div class="component-label">Column chart example</div>
-    <div class="caption">Here is an awesome, concise caption.</div>
-    <div class="chart chart-column-example"></div>
-    
-
-    
-    <div class="component-label">Map example</div>
-    <div class="caption">Here is an awesome, concise caption.</div>
-    <div class="map" id="example-markers-features-map"></div>
-    
-
-    
-    
+    <div class="row">
+      <div class="column-small-100">
+        <div class="schools-chart chart"></div>
+      </div>
+    </div>
 
   </div>
 
   <div class="footnote-container">
     <div class="footnote">
       <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>
-      
+
         <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>
-      
+
     </div>
   </div>
 </div>
