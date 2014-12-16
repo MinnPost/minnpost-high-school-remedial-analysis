@@ -32,7 +32,7 @@ tcschools <- c(  "0001-03-352", #edison
                  "0001-03-362", #south
                  "0001-03-364", #southwest
                  "0001-03-368", #washburn
-                 "0625-01-240", #arlington
+                 #"0625-01-240", cutting arlington since it closed
                  "0625-01-210", #central
                  "0625-01-212", #como park
                  "0625-01-215", #harding
