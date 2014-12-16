@@ -17,8 +17,7 @@ sleds$grads <- as.numeric(as.character(sleds$grads))
 sleds$college <- as.numeric(as.character(sleds$college))
 sleds$remedial <- as.numeric(as.character(sleds$remedial))
 
-
-#percent of grads needing developmental ed
+#percent of grads and college enrollees needing developmental ed
 sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
 sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
 ```
@@ -81,4 +80,13 @@ tc.graddata <- rename(tc.graddata, c('Four..Year.Percent' = 'grad.rate'))
 #add grad data to by year data frame
 tcgrads.byyear <- merge(tc.graddata,tcgrads.byyear, key="id", all.x=T, sort=F)
 
+#reorder columns
+tcgrads.byyear <- tcgrads.byyear[,c('id','School.Name','2006','2007','2008','2009','2010','2011','2012','mean','grad.rate')]
 ```
+
+Now save the result to a CSV!
+
+```{r}
+write.csv(tcgrads.byyear, file="../build/school-remdial-and-grad-rates.csv", na='', row.names=F)
+```
+
