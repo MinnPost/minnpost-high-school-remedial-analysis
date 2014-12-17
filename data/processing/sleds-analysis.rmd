@@ -8,18 +8,19 @@ output: html_document
 library(reshape)
 ```
 
-
+##SLEDS data
 ```{r}
 sleds <- read.csv("../build/2014-sleds.csv", stringsAsFactors = TRUE)
 
 #introduce NAs for less than ten schools so we can ignore them
 sleds$grads <- as.numeric(as.character(sleds$grads))
 sleds$college <- as.numeric(as.character(sleds$college))
+sleds$mncollege <- as.numeric(as.character(sleds$mncollege))
 sleds$remedial <- as.numeric(as.character(sleds$remedial))
 
-#percent of grads and college enrollees needing developmental ed
+#percent of grads and minnesota college enrollees needing developmental ed
 sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
-sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
+sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$mncollege,2)
 ```
 
 ##Twin Cities high schools
@@ -93,14 +94,15 @@ tcgrads.byyear <- tcgrads.byyear[,c('id','School.Name','2006','2007','2008','200
 ##Statewide grads of large-ish high schools
 ```{r}
 #High schools graduating 100 or more students
-biggrads <- subset(sleds, grads > 99)
+bigschools <- sleds$id[sleds$grads > 99]
+biggrads <- subset(sleds, id %in% bigschools)
 
 #reshape to give yearly rates
 biggrads.byyear <- cast(biggrads, id ~ year)
 
 #calculate mean for each school
-biggrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
-biggrads.byyear$mean <- round(tcgrads.byyear$mean, 2)
+biggrads.byyear$mean <- rowMeans(biggrads.byyear, na.rm=TRUE)
+biggrads.byyear$mean <- round(biggrads.byyear$mean, 2)
 ```
 
 ##Add graduation rates to statewide big school data
@@ -130,3 +132,6 @@ Save results to CSV for visualization.
 write.csv(tcgrads.byyear, file="../build/school-remedial-and-grad-rates.csv", na='', row.names=F)
 ```
 
+```{r}
+write.csv(biggrads.byyear, file="../build/school-remedial-and-grad-rates-statewide-large.csv", na='', row.names=F)
+```
