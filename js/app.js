@@ -124,6 +124,9 @@ require([
           },
           xAxis: {
             type: 'category',
+            lineWidth: 0,
+            minorTickLength: 0,
+            tickLength: 0,
             labels: {
               enabled: false,
               rotation: -45
@@ -229,7 +232,9 @@ require([
           }));
           layer.bringToFront();
           thisApp.map.setView(current.geometry.coordinates.reverse(), 10);
-          thisApp.map.invalidateSize();
+          _.delay(function() {
+            thisApp.map.invalidateSize();
+          }, 400);
         }
         else {
           layer.setStyle(_.clone(layer.originalOptions));

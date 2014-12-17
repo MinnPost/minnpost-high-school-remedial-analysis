@@ -20,7 +20,7 @@ body .node-unpublished {
   }
 
   .schools-chart {
-    height: 15em;
+    height: 12em;
   }
 
   #schools-map {
@@ -32,6 +32,10 @@ body .node-unpublished {
 
     .component-label {
       margin-bottom: 0;
+    }
+
+    .school-district {
+      line-height: 1.25em;
     }
 
     .details-label {
