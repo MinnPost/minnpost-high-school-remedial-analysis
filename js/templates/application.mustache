@@ -9,24 +9,31 @@
       </div>
 
       <div class="column-small-100 column-medium-33">
-        {{^selectedSchool}}
-          <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>
-        {{/selectedSchool}}
+        <div class="school-details">
+          {{^selectedSchool}}
+            <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>
+          {{/selectedSchool}}
 
-        {{#selectedSchool}}
-          <div class="component-label">{{ properties.name }}</div>
+          {{#selectedSchool}}
+            <div class="component-label">{{ properties.name }}</div>
+            <div class="space-bottom small">
+              {{ properties.district_name }} school district
+            </div>
 
-          <div><em class="small">Percent of enrollees that required development education (7-year mean)</em></div>
-          <div class="xlarge space-bottom">{{ f.percent(properties.remMean, 0) }}</div>
+            <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>
+            <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>
 
-          <div><em class="small">Graduation rate</em></div>
-          <div class="large space-bottom">{{ f.percent(properties.grad_rate, 0) }}</div>
+            <div><em class="small"></em></div>
+            <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
+            <div class="details-label">4-year graduation rate</div>
 
-          <div class="small">
-            {{ properties.district_name }} school district.<br>
-            {{ properties.address }}
-          </div>
-        {{/selectedSchool}}
+            <div class="details-chart-container">
+              <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>
+              <div class="details-label">Percent of enrollees that required development education over time</div>
+            </div>
+
+          {{/selectedSchool}}
+        </div>
       </div>
     </div>
 
