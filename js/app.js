@@ -51,10 +51,10 @@ require([
       // Make color scale, using diverging
       this.colorScale = chroma.scale([
         mpConfig['colors-data'].green1,
-        mpConfig['colors-data'].blue1
+        mpConfig['colors-data'].orange
       ]).mode('hsl').domain(_.map(this.schools.features, function(f, fi) {
         return f.properties.remMean;
-      }), 5);
+      }), 9);
 
       // TODO: Use a router so people can link to specific schools
 
@@ -99,12 +99,14 @@ require([
         name: 'Schools',
         color: mpConfig['colors-data'].blue1,
         data: _.map(this.schools.features, function(f, fi) {
+          var color = thisApp.colorScale(f.properties.remMean).hex();
           return {
             id: f.properties.id,
             name: f.properties.name,
             y: f.properties.remMean * 100,
             remMean: f.properties.remMean,
-            color: thisApp.colorScale(f.properties.remMean).hex()
+            color: color,
+            originalColor: color
           };
         })
       }];
@@ -123,6 +125,7 @@ require([
           xAxis: {
             type: 'category',
             labels: {
+              enabled: false,
               rotation: -45
             }
           },
@@ -135,14 +138,13 @@ require([
             }
           },
           plotOptions: {
+            column: {
+              pointPadding: 0,
+              groupPadding: 0,
+              borderWidth: 0
+            },
             series: {
               cursor: 'pointer',
-              states: {
-                hover: {
-                  enabled: false
-                }
-              },
-              borderWidth: 3,
               point: {
                 events: {
                   click: function() {
@@ -170,7 +172,7 @@ require([
         // Make points circle markers
         pointToLayer: function(feature, latlng) {
           return L.circleMarker(latlng, {
-            radius: 8
+            radius: 5
           });
         },
         // Style accordingly
@@ -181,7 +183,7 @@ require([
             fillOpacity: 0.8,
             stroke: true,
             color: color,
-            weight: 5,
+            weight: 3,
             opacity: 0.2
           });
           return style;
@@ -214,6 +216,7 @@ require([
 
     // Highlight
     highlight: function(current) {
+      var thisApp = this;
       var currentP = current.properties;
 
       // Map
@@ -224,6 +227,9 @@ require([
             color: '#222222',
             weight: 3
           }));
+          layer.bringToFront();
+          thisApp.map.setView(current.geometry.coordinates.reverse(), 10);
+          thisApp.map.invalidateSize();
         }
         else {
           layer.setStyle(_.clone(layer.originalOptions));
@@ -233,10 +239,11 @@ require([
       // Chart
       _.each(this.schoolsChart.series[0].data, function(d, di) {
         if (d.id === currentP.id) {
-          d.update({ borderColor: '#222222', borderWidth: 3 }, true, false);
+          d.update({ color: '#222222' }, true, false);
         }
         else {
-          d.update({ borderColor: null, borderWidth: null }, true, false);
+          // Only redraw if previously highlighted
+          d.update({ color: d.options.originalColor }, (d.color === '#222222'), false);
         }
       });
     },
@@ -252,13 +259,13 @@ require([
           name: 'Remedial score over time',
           color: mpConfig['colors-data'].purple,
           data: [
-            [ 2006, p.rem2006 * 100 ],
-            [ 2007, p.rem2007 * 100 ],
-            [ 2008, p.rem2008 * 100 ],
-            [ 2009, p.rem2009 * 100 ],
-            [ 2010, p.rem2010 * 100 ],
-            [ 2011, p.rem2011 * 100 ],
-            [ 2012, p.rem2012 * 100 ]
+            [ 2006, (p.rem2006) ? p.rem2006 * 100 : null ],
+            [ 2007, (p.rem2007) ? p.rem2007 * 100 : null ],
+            [ 2008, (p.rem2008) ? p.rem2008 * 100 : null ],
+            [ 2009, (p.rem2009) ? p.rem2009 * 100 : null ],
+            [ 2010, (p.rem2010) ? p.rem2010 * 100 : null ],
+            [ 2011, (p.rem2011) ? p.rem2011 * 100 : null ],
+            [ 2012, (p.rem2012) ? p.rem2012 * 100 : null ]
           ]
         }];
         chart = mpHighcharts.makeChart($(node),
@@ -269,6 +276,13 @@ require([
             tooltip: {
               formatter: function() {
                 return this.x + ': ' + mpFormatters.number(this.y, 0) + '%';
+              }
+            },
+            plotOptions: {
+              line: {
+                marker: {
+                  enabled: true
+                }
               }
             }
           }));
