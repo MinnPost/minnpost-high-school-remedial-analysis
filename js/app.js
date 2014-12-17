@@ -59,8 +59,6 @@ require([
         return f.properties.remMean;
       }), 6);
 
-      // TODO: Use a router so people can link to specific schools
-
       // Create main application view
       this.mainView = new Ractive({
         el: this.$el,
@@ -78,6 +76,28 @@ require([
       // Render inital parts
       this.drawCharts();
       this.drawMaps();
+
+      // TODO: Use a router so people can link to specific schools
+      this.Router = Backbone.Router.extend({
+        routes: {
+          'school/:school': 'routeSchool',
+          '*defaultR': 'routeDefault'
+        },
+
+        routeSchool: function(school) {
+          var found = _.find(thisApp.schools.features, function(f, fi) {
+            return f.properties.id === school;
+          });
+          if (school && found) {
+            thisApp.mainView.set('selectedSchoolID', school);
+          }
+        },
+
+        routeDefault: function() {
+        }
+      });
+      this.router = new this.Router();
+      Backbone.history.start();
 
       // Handle events
       this.mainView.observe('selectedSchoolID', function(n, o) {
@@ -154,7 +174,7 @@ require([
                 events: {
                   click: function() {
                     // Details of school on clicl
-                    thisApp.mainView.set('selectedSchoolID', this.id);
+                    thisApp.router.navigate('/school/' + this.id, { trigger: true });
                   }
                 }
               }
@@ -204,7 +224,7 @@ require([
           });
           // Show details on click
           layer.on('click', function(e) {
-            thisApp.mainView.set('selectedSchoolID', feature.properties.id);
+            thisApp.router.navigate('/school/' + feature.properties.id, { trigger: true });
           });
 
           // Make reference to original styles for easy change
