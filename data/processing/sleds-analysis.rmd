@@ -8,18 +8,19 @@ output: html_document
 library(reshape)
 ```
 
-##Sleds data
+##SLEDS data
 ```{r}
 sleds <- read.csv("../build/2014-sleds.csv", stringsAsFactors = TRUE)
 
 #introduce NAs for less than ten schools so we can ignore them
 sleds$grads <- as.numeric(as.character(sleds$grads))
 sleds$college <- as.numeric(as.character(sleds$college))
+sleds$mncollege <- as.numeric(as.character(sleds$mncollege))
 sleds$remedial <- as.numeric(as.character(sleds$remedial))
 
-#percent of grads and college enrollees needing developmental ed
+#percent of grads and minnesota college enrollees needing developmental ed
 sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
-sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
+sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$mncollege,2)
 ```
 
 ##Twin Cities high schools
