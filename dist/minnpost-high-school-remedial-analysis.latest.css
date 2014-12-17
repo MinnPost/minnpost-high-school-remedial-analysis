@@ -2078,3 +2078,29 @@ body .node-unpublished {
 .mp .minnpost-high-school-remedial-analysis-container #schools-map {
   height: 35em;
 }
+.mp .minnpost-high-school-remedial-analysis-container .school-details {
+  padding-top: 2em;
+}
+.mp .minnpost-high-school-remedial-analysis-container .school-details .component-label {
+  margin-bottom: 0;
+}
+.mp .minnpost-high-school-remedial-analysis-container .school-details .details-label {
+  margin-bottom: 1em;
+  font-size: 0.85em;
+  font-style: italic;
+  line-height: 1.15em;
+  color: #7a7a7a;
+}
+.mp .minnpost-high-school-remedial-analysis-container .school-details .details-chart-container {
+  padding-top: 0.5em;
+}
+.mp .minnpost-high-school-remedial-analysis-container .school-details .details-chart-container .details-chart {
+  height: 8em;
+  margin: 0;
+}
+@media screen and (max-width: 640px) {
+  .mp .minnpost-high-school-remedial-analysis-container .school-details {
+    padding-top: 2em;
+    margin-bottom: 2em;
+  }
+}
