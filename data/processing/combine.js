@@ -33,7 +33,7 @@ schoolGeo.features = _.map(schoolGeo.features, function(f, fi) {
       rem2011: (r['2011']) ? parseFloat(r['2011']) : null,
       rem2012: (r['2012']) ? parseFloat(r['2012']) : null,
       remMean: (r.mean) ? parseFloat(r.mean) : null,
-      name: p.SCHNAME,
+      name: p.SCHNAME.trim(),
       address: p.ADDRESS + ', ' + p.CITY + ', ' + p.STATE + ' ' + p.ZIP,
       district_name: p.SDNAME
     };

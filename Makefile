@@ -26,7 +26,7 @@ local_schools_shp := $(original)/schools1112-2012/schools1112.shp
 # Converted
 build_schools_sleds := $(build)/2014-sleds.csv
 build_schools_grad := $(build)/2014-grad-data.csv
-build_schools_analysis_csv := $(build)/school-remedial-and-grad-rates.csv
+build_schools_analysis_csv := $(build)/school-remedial-and-grad-rates-statewide-large.csv
 build_schools_analysis_json := $(build)/school-remedial-and-grad-rates.json
 build_schools_geo := $(build)/schools-locations.geo.json
 
