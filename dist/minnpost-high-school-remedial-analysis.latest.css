@@ -2101,7 +2101,16 @@ body .node-unpublished {
   height: 8em;
   margin: 0;
 }
+.mp .minnpost-high-school-remedial-analysis-container .medium-hide {
+  display: none;
+}
 @media screen and (max-width: 640px) {
+  .mp .minnpost-high-school-remedial-analysis-container .medium-hide {
+    display: block;
+  }
+  .mp .minnpost-high-school-remedial-analysis-container #schools-map {
+    height: 27em;
+  }
   .mp .minnpost-high-school-remedial-analysis-container .school-details {
     padding-top: 2em;
     margin-bottom: 2em;
