@@ -67,8 +67,20 @@ body .node-unpublished {
   //   ("xlarge", 1200px)
   // ) !default;
 
+  .medium-hide {
+    display: none;
+  }
+
   // Medium breakpoint
   @media screen and (max-width: nth(nth($responsive-points, 3), 2)) {
+
+    .medium-hide {
+      display: block;
+    }
+
+    #schools-map {
+      height: 27em;
+    }
 
     .school-details {
       padding-top: 2em;

@@ -4,10 +4,6 @@
   <div class="content-container">
 
     <div class="row">
-      <div class="column-small-100 column-medium-66">
-        <div id="schools-map" class="map"></div>
-      </div>
-
       <div class="column-small-100 column-medium-33">
         <div class="school-details">
           {{^selectedSchool}}
@@ -34,10 +30,20 @@
           {{/selectedSchool}}
         </div>
       </div>
+
+      <div class="column-small-100 column-medium-66">
+        <div class="component-label medium-hide">Map of schools</div>
+        <div class="caption medium-hide">Colored by percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the map to see details about that school above.</div>
+
+        <div id="schools-map" class="map"></div>
+      </div>
     </div>
 
     <div class="row">
       <div class="column-small-100">
+        <div class="component-label medium-hide">Chart of schools</div>
+        <div class="caption medium-hide">Showing percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the chart to see details about that school above.</div>
+
         <div class="schools-chart chart"></div>
       </div>
     </div>

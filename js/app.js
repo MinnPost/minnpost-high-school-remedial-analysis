@@ -47,14 +47,17 @@ require([
       this.schools.features = _.sortBy(this.schools.features, function(f, fi) {
         return f.properties.remMean;
       });
+      // Remove zero data (though this should not be in here)
+      this.schools.features = _.filter(this.schools.features, function(f, fi) {
+        return f.properties.remMean;
+      });
 
       // Make color scale, using diverging
       this.colorScale = chroma.scale([
-        mpConfig['colors-data'].green1,
-        mpConfig['colors-data'].orange
-      ]).mode('hsl').domain(_.map(this.schools.features, function(f, fi) {
+        '#ff6633', '#ff9975', '#ffc8b6', '#efe3c8', '#7abecc', '#0793ab'
+      ].reverse()).mode('hsl').domain(_.map(this.schools.features, function(f, fi) {
         return f.properties.remMean;
-      }), 9);
+      }), 6);
 
       // TODO: Use a router so people can link to specific schools
 
@@ -117,7 +120,6 @@ require([
           series: this.chartData,
           legend: { enabled: false },
           yAxis: {
-            opposite: true,
             title: {
               text: '% of enrollees'
             }
@@ -183,7 +185,7 @@ require([
           var color = thisApp.colorScale(feature.properties.remMean).hex();
           var style = _.extend(mpMaps.mapStyle, {
             fillColor: color,
-            fillOpacity: 0.8,
+            fillOpacity: 0.9,
             stroke: true,
             color: color,
             weight: 3,
