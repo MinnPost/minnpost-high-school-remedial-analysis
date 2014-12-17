@@ -22,8 +22,7 @@ sleds$pct.remedial.grads <- round(sleds$remedial / sleds$grads,2)
 sleds$pct.remedial.enrollees <- round(sleds$remedial / sleds$college,2)
 ```
 
-Now look at TC high schools
-
+##Twin Cities high schools
 ```{r}
 tcschools <- c(  "0001-03-352", #edison
                  "0001-03-354", #henry
@@ -49,8 +48,7 @@ tcgrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
 tcgrads.byyear$mean <- round(tcgrads.byyear$mean, 2)
 ```
 
-Add in graduate data
-
+##Graduation rates
 ```{r}
 graddata <- read.csv("../build/2012-grad-data.csv", stringsAsFactors = FALSE)
 
@@ -71,7 +69,11 @@ createid <- function(dist, type, school) {
 #Apply createid function to each row (combines three fields to match ids in SLEDS)
 graddata$id <- apply(graddata[,c('District.Number','District.Type','School.Number')], 1, function(y) createid(y['District.Number'],y['District.Type'],y['School.Number']))
 
+```
 
+##Graduation Rates — Twin Cities
+Add graduation rate data for Twin Cities schools to the data frame about remediation rates from above.
+```{r}
 #filter down to TC schools
 tc.graddata <- subset(graddata, id %in% tcschools & Demographic.Group == "All Students" & Ending.Status == "Graduate")[c('id','Four..Year.Percent','School.Name')]
 
@@ -88,8 +90,42 @@ tcgrads.byyear <- merge(tc.graddata,tcgrads.byyear, key="id", all.x=T, sort=F)
 tcgrads.byyear <- tcgrads.byyear[,c('id','School.Name','2006','2007','2008','2009','2010','2011','2012','mean','grad.rate')]
 ```
 
-Now save the result to a CSV!
+##Statewide grads of large-ish high schools
+```{r}
+#High schools graduating 100 or more students
+biggrads <- subset(sleds, grads > 99)
 
+#reshape to give yearly rates
+biggrads.byyear <- cast(biggrads, id ~ year)
+
+#calculate mean for each school
+biggrads.byyear$mean <- rowMeans(tcgrads.byyear, na.rm=TRUE)
+biggrads.byyear$mean <- round(tcgrads.byyear$mean, 2)
+```
+
+##Add graduation rates to statewide big school data
+```{r}
+
+#filter down to big schools
+biggrads.graddata <- subset(graddata, id %in% biggrads$id & Demographic.Group == "All Students" & Ending.Status == "Graduate")[c('id','Four..Year.Percent','School.Name')]
+
+#rename Grad rate column to be more clear in merged data
+biggrads.graddata <- rename(biggrads.graddata, c('Four..Year.Percent' = 'grad.rate'))
+
+#format grad.rate to match rates in rest of data
+biggrads.graddata$grad.rate <- round(biggrads.graddata$grad.rate/100,2)
+
+#add grad data to byyear data frame
+biggrads.byyear <- merge(biggrads.graddata,biggrads.byyear, key="id", all.x=T, sort=F)
+
+#reorder columns
+biggrads.byyear <- biggrads.byyear[,c('id','School.Name','2006','2007','2008','2009','2010','2011','2012','mean','grad.rate')]
+
+```
+
+
+##Export
+Save results to CSV for visualization.
 ```{r}
 write.csv(tcgrads.byyear, file="../build/school-remedial-and-grad-rates.csv", na='', row.names=F)
 ```

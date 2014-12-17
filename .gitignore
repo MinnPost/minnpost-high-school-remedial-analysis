@@ -6,6 +6,7 @@ data/build/*
 !data/build/2012-grad-data.csv
 !data/build/2012-sleds.csv
 !data/build/school-remedial-and-grad-rates.csv
+!data/build/school-remedial-and-grad-rates-statewide-large.csv
 
 # Unnecssary dist parts
 dist/data.js
