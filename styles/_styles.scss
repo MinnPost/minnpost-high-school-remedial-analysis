@@ -27,6 +27,33 @@ body .node-unpublished {
     height: 35em;
   }
 
+  .school-details {
+    padding-top: 2em;
+
+    .component-label {
+      margin-bottom: 0;
+    }
+
+    .details-label {
+      margin-bottom: 1em;
+      font-size: 0.85em;
+      font-style: italic;
+      line-height: 1.15em;
+      color: $color-gray;
+    }
+
+    .details-chart-container {
+      padding-top: 0.5em;
+
+      .details-chart {
+        height: 8em;
+        margin: 0;
+      }
+    }
+  }
+
+
+
   // Default responsive points
   // $responsive-points: (
   //   ("all", 0px),
@@ -39,5 +66,9 @@ body .node-unpublished {
   // Medium breakpoint
   @media screen and (max-width: nth(nth($responsive-points, 3), 2)) {
 
+    .school-details {
+      padding-top: 2em;
+      margin-bottom: 2em;
+    }
   }
 }

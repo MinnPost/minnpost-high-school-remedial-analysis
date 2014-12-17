@@ -66,6 +66,9 @@ require([
           f: mpFormatters
         },
         partials: {
+        },
+        decorators: {
+          schoolChart: this.schoolChartDecorator
         }
       });
 
@@ -82,9 +85,8 @@ require([
         if (found) {
           // Get data for school
           this.set('selectedSchool', found);
-          // Update chart
-
-          // Update map
+          // Highlight chart and map
+          thisApp.highlight(found);
         }
       });
     },
@@ -135,17 +137,17 @@ require([
           plotOptions: {
             series: {
               cursor: 'pointer',
+              states: {
+                hover: {
+                  enabled: false
+                }
+              },
+              borderWidth: 3,
               point: {
                 events: {
                   click: function() {
+                    // Details of school on clicl
                     thisApp.mainView.set('selectedSchoolID', this.id);
-
-                    /*
-                    _.each(this.series.data)
-                      this.series.data[i].update({ color: '#ECB631' }, true, false);
-                    }
-                    this.update({ color: '#f00' }, true, false)
-                    */
                   }
                 }
               }
@@ -174,8 +176,7 @@ require([
         // Style accordingly
         style: function(feature) {
           var color = thisApp.colorScale(feature.properties.remMean).hex();
-
-          return _.extend(mpMaps.mapStyle, {
+          var style = _.extend(mpMaps.mapStyle, {
             fillColor: color,
             fillOpacity: 0.8,
             stroke: true,
@@ -183,6 +184,7 @@ require([
             weight: 5,
             opacity: 0.2
           });
+          return style;
         },
         // Events
         onEachFeature: function(feature, layer) {
@@ -197,6 +199,9 @@ require([
           layer.on('click', function(e) {
             thisApp.mainView.set('selectedSchoolID', feature.properties.id);
           });
+
+          // Make reference to original styles for easy change
+          layer.originalOptions = _.clone(layer.options);
         }
       }).addTo(this.map);
 
@@ -207,6 +212,76 @@ require([
 
     },
 
+    // Highlight
+    highlight: function(current) {
+      var currentP = current.properties;
+
+      // Map
+      this.schoolMapLayer.eachLayer(function(layer) {
+        if (layer.feature.properties.id === currentP.id) {
+          layer.setStyle(_.extend(_.clone(layer.originalOptions), {
+            opacity: 0.75,
+            color: '#222222',
+            weight: 3
+          }));
+        }
+        else {
+          layer.setStyle(_.clone(layer.originalOptions));
+        }
+      });
+
+      // Chart
+      _.each(this.schoolsChart.series[0].data, function(d, di) {
+        if (d.id === currentP.id) {
+          d.update({ borderColor: '#222222', borderWidth: 3 }, true, false);
+        }
+        else {
+          d.update({ borderColor: null, borderWidth: null }, true, false);
+        }
+      });
+    },
+
+    // Ractive decorator for making a chart for each school
+    schoolChartDecorator: function(node, currentSchool) {
+      var p = currentSchool.properties;
+      var chart, chartData;
+
+      // Add chart
+      if (!_.isObject(chart) && _.isObject(currentSchool)) {
+        chartData = [{
+          name: 'Remedial score over time',
+          color: mpConfig['colors-data'].purple,
+          data: [
+            [ 2006, p.rem2006 * 100 ],
+            [ 2007, p.rem2007 * 100 ],
+            [ 2008, p.rem2008 * 100 ],
+            [ 2009, p.rem2009 * 100 ],
+            [ 2010, p.rem2010 * 100 ],
+            [ 2011, p.rem2011 * 100 ],
+            [ 2012, p.rem2012 * 100 ]
+          ]
+        }];
+        chart = mpHighcharts.makeChart($(node),
+          $.extend(true, {}, mpHighcharts.lineOptions, {
+            series: chartData,
+            legend: false,
+            yAxis: { title: { enabled: false }},
+            tooltip: {
+              formatter: function() {
+                return this.x + ': ' + mpFormatters.number(this.y, 0) + '%';
+              }
+            }
+          }));
+      }
+
+      return {
+        teardown: function () {
+          if (_.isObject(chart)) {
+            chart.destroy();
+          }
+        }
+      };
+    }
   });
 
   // Create instance and return
