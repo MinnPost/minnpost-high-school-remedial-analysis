@@ -23,14 +23,13 @@
             <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>
             <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>
 
-            <div><em class="small"></em></div>
-            <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
-            <div class="details-label">4-year graduation rate</div>
-
             <div class="details-chart-container">
               <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>
               <div class="details-label">Percent of enrollees that required development education over time</div>
             </div>
+
+            <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
+            <div class="details-label">4-year graduation rate</div>
 
           {{/selectedSchool}}
         </div>
