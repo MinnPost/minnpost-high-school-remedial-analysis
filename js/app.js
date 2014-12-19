@@ -59,12 +59,27 @@ require([
         return f.properties.remMean;
       }), 6);
 
-      // Create main application view
+      // Make view
+      this.renderView();
+
+      // Make
+      this.on('viewRendered', function() {
+        thisApp.drawCharts();
+        thisApp.drawMaps();
+        thisApp.makeRouter();
+        thisApp.eventHandling();
+      });
+    },
+
+    // Make view
+    renderView: function() {
+      var thisApp = this;
       this.mainView = new Ractive({
         el: this.$el,
         template: tApplication,
         data: {
-          f: mpFormatters
+          f: mpFormatters,
+          isReady: false
         },
         partials: {
         },
@@ -73,32 +88,45 @@ require([
         }
       });
 
-      // Render inital parts
-      this.drawCharts();
-      this.drawMaps();
+      // (maybe, actually this is not really necessary)
+      // the view is not fully loaded in the DOM
+      // before a map gets made, but there's not a way
+      // to see when this is with Ractive
+      _.delay(function() {
+        thisApp.mainView.set('isReady', true);
+        thisApp.trigger('viewRendered');
+      }, 500);
+    },
 
-      // TODO: Use a router so people can link to specific schools
-      this.Router = Backbone.Router.extend({
+    // Make router
+    makeRouter: function() {
+      var thisApp = this;
+      var Router = Backbone.Router.extend({
         routes: {
           'school/:school': 'routeSchool',
           '*defaultR': 'routeDefault'
         },
+        app: thisApp,
 
         routeSchool: function(school) {
-          var found = _.find(thisApp.schools.features, function(f, fi) {
+          var found = _.find(this.app.schools.features, function(f, fi) {
             return f.properties.id === school;
           });
           if (school && found) {
-            thisApp.mainView.set('selectedSchoolID', school);
+            this.app.mainView.set('selectedSchoolID', school);
           }
         },
 
         routeDefault: function() {
         }
       });
-      this.router = new this.Router();
+      this.router = new Router();
       Backbone.history.start();
+    },
 
+    // Handle some events
+    eventHandling: function() {
+      var thisApp = this;
       // Handle events
       this.mainView.observe('selectedSchoolID', function(n, o) {
         var found = _.find(thisApp.schools.features, function(f, fi) {
@@ -188,8 +216,9 @@ require([
     drawMaps: function() {
       var thisApp = this;
       this.map = mpMaps.makeLeafletMap('schools-map');
+
+      // Add tooltip control
       this.tooltipControl = new mpMaps.TooltipControl();
-      this.map.setZoom(9);
       this.map.addControl(this.tooltipControl);
 
       // Geojson
@@ -207,9 +236,9 @@ require([
             fillColor: color,
             fillOpacity: 0.9,
             stroke: true,
-            color: color,
-            weight: 3,
-            opacity: 0.2
+            color: chroma(color).darken(20).hex(),
+            weight: 2,
+            opacity: 0.8
           });
           return style;
         },
@@ -243,6 +272,7 @@ require([
     highlight: function(current) {
       var thisApp = this;
       var currentP = current.properties;
+      var latLon = [current.geometry.coordinates[1], current.geometry.coordinates[0]];
 
       // Map
       this.schoolMapLayer.eachLayer(function(layer) {
@@ -252,14 +282,13 @@ require([
             color: '#222222',
             weight: 3
           }));
+          layer.setRadius(9);
           layer.bringToFront();
-          thisApp.map.setView(current.geometry.coordinates.reverse(), 10);
-          _.delay(function() {
-            thisApp.map.invalidateSize();
-          }, 400);
+          thisApp.map.setView(latLon, 10);
         }
         else {
           layer.setStyle(_.clone(layer.originalOptions));
+          layer.setRadius(5);
         }
       });
 

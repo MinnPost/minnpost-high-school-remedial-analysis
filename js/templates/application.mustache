@@ -3,52 +3,60 @@
 
   <div class="content-container">
 
-    <div class="row">
-      <div class="column-small-100 column-medium-33">
-        <div class="school-details">
-          {{^selectedSchool}}
-            <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>
-          {{/selectedSchool}}
+    {{^isReady}}
+      <div class="loading-container">
+        <i class="loading"></i> Loading...
+      </div>
+    {{/isReady}}
 
-          {{#selectedSchool}}
-            <div class="component-label">{{ properties.name }}</div>
-            <div class="space-bottom small school-district">
-              {{ properties.district_name }} school district
-            </div>
+    {{#isReady}}
+      <div class="row">
+        <div class="column-small-100 column-medium-33">
+          <div class="school-details">
+            {{^selectedSchool}}
+              <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>
+            {{/selectedSchool}}
 
-            <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>
-            <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>
+            {{#selectedSchool}}
+              <div class="component-label">{{ properties.name }}</div>
+              <div class="space-bottom small school-district">
+                {{ properties.district_name }} school district
+              </div>
 
-            <div class="details-chart-container">
-              <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>
-              <div class="details-label">Percent of enrollees that required development education over time</div>
-            </div>
+              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>
+              <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>
 
-            <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
-            <div class="details-label">4-year graduation rate</div>
+              <div class="details-chart-container">
+                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>
+                <div class="details-label">Percent of enrollees that required development education over time</div>
+              </div>
 
-          {{/selectedSchool}}
+              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
+              <div class="details-label">4-year graduation rate</div>
+
+            {{/selectedSchool}}
+          </div>
+        </div>
+
+        <div class="column-small-100 column-medium-66">
+          <div class="component-label medium-hide">Map of schools</div>
+          <div class="caption medium-hide">Colored by percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the map to see details about that school above.</div>
+
+          <div id="schools-map" class="map"></div>
         </div>
       </div>
 
-      <div class="column-small-100 column-medium-66">
-        <div class="component-label medium-hide">Map of schools</div>
-        <div class="caption medium-hide">Colored by percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the map to see details about that school above.</div>
+      <div class="row">
+        <div class="column-small-100">
+          <div class="component-label medium-hide">Chart of schools</div>
+          <div class="caption medium-hide">Showing percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the chart to see details about that school above.</div>
 
-        <div id="schools-map" class="map"></div>
+          <div class="schools-chart chart"></div>
+        </div>
       </div>
+
     </div>
-
-    <div class="row">
-      <div class="column-small-100">
-        <div class="component-label medium-hide">Chart of schools</div>
-        <div class="caption medium-hide">Showing percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the chart to see details about that school above.</div>
-
-        <div class="schools-chart chart"></div>
-      </div>
-    </div>
-
-  </div>
+  {{/isReady}}
 
   <div class="footnote-container">
     <div class="footnote">
