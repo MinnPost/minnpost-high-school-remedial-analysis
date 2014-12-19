@@ -242,7 +242,7 @@ define('base',['jquery', 'underscore', 'backbone', 'lazyload', 'mpFormatters', '
 });
 
 
-define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    {{^isReady}}\n      <div class="loading-container">\n        <i class="loading"></i> Loading...\n      </div>\n    {{/isReady}}\n\n    {{#isReady}}\n      <div class="row">\n        <div class="column-small-100 column-medium-33">\n          <div class="school-details">\n            {{^selectedSchool}}\n              <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>\n            {{/selectedSchool}}\n\n            {{#selectedSchool}}\n              <div class="component-label">{{ properties.name }}</div>\n              <div class="space-bottom small school-district">\n                {{ properties.district_name }} school district\n              </div>\n\n              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>\n\n              <div class="details-chart-container">\n                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>\n              </div>\n\n              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n              <div class="details-label">4-year graduation rate</div>\n\n            {{/selectedSchool}}\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-66">\n          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>\n\n          <div id="schools-map" class="map"></div>\n        </div>\n      </div>\n\n      <div class="row">\n        <div class="column-small-100">\n          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>\n\n          <div class="schools-chart chart"></div>\n        </div>\n      </div>\n\n    </div>\n  {{/isReady}}\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>\n\n      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>\n\n      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n    </div>\n  </div>\n</div>\n';});
+define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    {{^isReady}}\n      <div class="loading-container">\n        <i class="loading"></i> Loading...\n      </div>\n    {{/isReady}}\n\n    {{#isReady}}\n      <div class="row">\n        <div class="column-small-100 column-medium-33">\n          <div class="school-details">\n            {{^selectedSchool}}\n              <div class="text-center"><em>Click or tap on a marker in the map or on a line in the chart to see details about that school.</em></div>\n            {{/selectedSchool}}\n\n            {{#selectedSchool}}\n              <div class="component-label">{{ properties.name }}</div>\n              <div class="space-bottom small school-district">\n                {{ properties.district_name }} school district\n              </div>\n\n              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>\n\n              <div class="details-chart-container">\n                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>\n              </div>\n\n              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n              <div class="details-label">4-year graduation rate</div>\n\n            {{/selectedSchool}}\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-66">\n          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>\n\n          <div id="schools-map" class="map"></div>\n        </div>\n      </div>\n\n      <div class="row">\n        <div class="column-small-100">\n          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>\n\n          <div class="schools-chart chart"></div>\n        </div>\n      </div>\n\n    </div>\n  {{/isReady}}\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>\n\n      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>\n\n      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n    </div>\n  </div>\n</div>\n';});
 
 
 define('text!templates/tooltip-chart.underscore',[],function () { return '<%= p.name %>: <strong><%= f.percent(p.remMean, 0) %></strong>\n';});
@@ -385,12 +385,20 @@ require([
         var found = _.find(thisApp.schools.features, function(f, fi) {
           return (!!n && f.properties.id === n);
         });
+        var points;
 
         if (found) {
           // Get data for school
           this.set('selectedSchool', found);
+
           // Highlight chart and map
           thisApp.highlight(found);
+
+          // Re focus app if small
+          points = thisApp.responsivePoints();
+          if (points.indexOf('small') !== -1 && points.indexOf('medium') === -1) {
+            thisApp.gotoElement(thisApp.$('.school-details'));
+          }
         }
       });
     },
@@ -605,6 +613,36 @@ require([
           }
         }
       };
+    },
+
+    // Find responsive points that apply
+    responsivePoints: function() {
+      var points = [];
+      var width = $(window).width();
+      var widths = _.sortBy(_.map(mpConfig['responsive-points'], function(r, ri) {
+        return [ri, parseInt(r.replace('px', ''), 10)];
+      }), function(w, wi) {
+        return w[1];
+      });
+
+      _.each(widths, function(w, wi) {
+        if (width > w[1]) {
+          points.push(w[0]);
+        }
+      });
+      return points;
+    },
+
+    // Go to element
+    gotoElement: function(element, speed, offset) {
+      speed = speed || 700;
+      offset = offset || 20;
+      var $target = $(element);
+      var top = $target.offset().top;
+
+      $('html, body').animate({
+        scrollTop: (top - offset)
+      }, speed);
     }
   });
 
