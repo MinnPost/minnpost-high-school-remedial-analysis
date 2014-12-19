@@ -15,6 +15,7 @@ require.config({
     }
   },
   */
+  waitSeconds: 10,
   shim: {
     'highcharts': {
       exports: 'Highcharts',
