@@ -85,7 +85,8 @@ require([
         },
         decorators: {
           schoolChart: this.schoolChartDecorator
-        }
+        },
+        app: this
       });
 
       // (maybe, actually this is not really necessary)
@@ -308,12 +309,13 @@ require([
     schoolChartDecorator: function(node, currentSchool) {
       var p = currentSchool.properties;
       var chart, chartData;
+      var app = this._config.options.app;
 
       // Add chart
       if (!_.isObject(chart) && _.isObject(currentSchool)) {
         chartData = [{
           name: 'Remedial score over time',
-          color: mpConfig['colors-data'].purple,
+          color: mpConfig['colors-data'].green1,
           data: [
             [ 2006, (p.rem2006) ? p.rem2006 * 100 : null ],
             [ 2007, (p.rem2007) ? p.rem2007 * 100 : null ],
