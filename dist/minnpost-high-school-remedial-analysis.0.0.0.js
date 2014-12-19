@@ -242,7 +242,7 @@ define('base',['jquery', 'underscore', 'backbone', 'lazyload', 'mpFormatters', '
 });
 
 
-define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    <div class="row">\n      <div class="column-small-100 column-medium-33">\n        <div class="school-details">\n          {{^selectedSchool}}\n            <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>\n          {{/selectedSchool}}\n\n          {{#selectedSchool}}\n            <div class="component-label">{{ properties.name }}</div>\n            <div class="space-bottom small school-district">\n              {{ properties.district_name }} school district\n            </div>\n\n            <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n            <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>\n\n            <div class="details-chart-container">\n              <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n              <div class="details-label">Percent of enrollees that required development education over time</div>\n            </div>\n\n            <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n            <div class="details-label">4-year graduation rate</div>\n\n          {{/selectedSchool}}\n        </div>\n      </div>\n\n      <div class="column-small-100 column-medium-66">\n        <div class="component-label medium-hide">Map of schools</div>\n        <div class="caption medium-hide">Colored by percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the map to see details about that school above.</div>\n\n        <div id="schools-map" class="map"></div>\n      </div>\n    </div>\n\n    <div class="row">\n      <div class="column-small-100">\n        <div class="component-label medium-hide">Chart of schools</div>\n        <div class="caption medium-hide">Showing percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the chart to see details about that school above.</div>\n\n        <div class="schools-chart chart"></div>\n      </div>\n    </div>\n\n  </div>\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n        <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n    </div>\n  </div>\n</div>\n';});
+define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    {{^isReady}}\n      <div class="loading-container">\n        <i class="loading"></i> Loading...\n      </div>\n    {{/isReady}}\n\n    {{#isReady}}\n      <div class="row">\n        <div class="column-small-100 column-medium-33">\n          <div class="school-details">\n            {{^selectedSchool}}\n              <div class="text-center"><em>Click or tap on school in the map or on the chart to see details about that school.</em></div>\n            {{/selectedSchool}}\n\n            {{#selectedSchool}}\n              <div class="component-label">{{ properties.name }}</div>\n              <div class="space-bottom small school-district">\n                {{ properties.district_name }} school district\n              </div>\n\n              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>\n\n              <div class="details-chart-container">\n                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>\n              </div>\n\n              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n              <div class="details-label">4-year graduation rate</div>\n\n            {{/selectedSchool}}\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-66">\n          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>\n\n          <div id="schools-map" class="map"></div>\n        </div>\n      </div>\n\n      <div class="row">\n        <div class="column-small-100">\n          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>\n\n          <div class="schools-chart chart"></div>\n        </div>\n      </div>\n\n    </div>\n  {{/isReady}}\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>\n\n      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>\n\n      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n    </div>\n  </div>\n</div>\n';});
 
 
 define('text!templates/tooltip-chart.underscore',[],function () { return '<%= p.name %>: <strong><%= f.percent(p.remMean, 0) %></strong>\n';});
@@ -311,46 +311,75 @@ require([
         return f.properties.remMean;
       }), 6);
 
-      // Create main application view
+      // Make view
+      this.renderView();
+
+      // Make
+      this.on('viewRendered', function() {
+        thisApp.drawCharts();
+        thisApp.drawMaps();
+        thisApp.makeRouter();
+        thisApp.eventHandling();
+      });
+    },
+
+    // Make view
+    renderView: function() {
+      var thisApp = this;
       this.mainView = new Ractive({
         el: this.$el,
         template: tApplication,
         data: {
-          f: mpFormatters
+          f: mpFormatters,
+          isReady: false
         },
         partials: {
         },
         decorators: {
           schoolChart: this.schoolChartDecorator
-        }
+        },
+        app: this
       });
 
-      // Render inital parts
-      this.drawCharts();
-      this.drawMaps();
+      // (maybe, actually this is not really necessary)
+      // the view is not fully loaded in the DOM
+      // before a map gets made, but there's not a way
+      // to see when this is with Ractive
+      _.delay(function() {
+        thisApp.mainView.set('isReady', true);
+        thisApp.trigger('viewRendered');
+      }, 500);
+    },
 
-      // TODO: Use a router so people can link to specific schools
-      this.Router = Backbone.Router.extend({
+    // Make router
+    makeRouter: function() {
+      var thisApp = this;
+      var Router = Backbone.Router.extend({
         routes: {
           'school/:school': 'routeSchool',
           '*defaultR': 'routeDefault'
         },
+        app: thisApp,
 
         routeSchool: function(school) {
-          var found = _.find(thisApp.schools.features, function(f, fi) {
+          var found = _.find(this.app.schools.features, function(f, fi) {
             return f.properties.id === school;
           });
           if (school && found) {
-            thisApp.mainView.set('selectedSchoolID', school);
+            this.app.mainView.set('selectedSchoolID', school);
           }
         },
 
         routeDefault: function() {
         }
       });
-      this.router = new this.Router();
+      this.router = new Router();
       Backbone.history.start();
+    },
 
+    // Handle some events
+    eventHandling: function() {
+      var thisApp = this;
       // Handle events
       this.mainView.observe('selectedSchoolID', function(n, o) {
         var found = _.find(thisApp.schools.features, function(f, fi) {
@@ -440,8 +469,9 @@ require([
     drawMaps: function() {
       var thisApp = this;
       this.map = mpMaps.makeLeafletMap('schools-map');
+
+      // Add tooltip control
       this.tooltipControl = new mpMaps.TooltipControl();
-      this.map.setZoom(9);
       this.map.addControl(this.tooltipControl);
 
       // Geojson
@@ -459,9 +489,9 @@ require([
             fillColor: color,
             fillOpacity: 0.9,
             stroke: true,
-            color: color,
-            weight: 3,
-            opacity: 0.2
+            color: chroma(color).darken(20).hex(),
+            weight: 2,
+            opacity: 0.8
           });
           return style;
         },
@@ -495,6 +525,7 @@ require([
     highlight: function(current) {
       var thisApp = this;
       var currentP = current.properties;
+      var latLon = [current.geometry.coordinates[1], current.geometry.coordinates[0]];
 
       // Map
       this.schoolMapLayer.eachLayer(function(layer) {
@@ -504,14 +535,13 @@ require([
             color: '#222222',
             weight: 3
           }));
+          layer.setRadius(9);
           layer.bringToFront();
-          thisApp.map.setView(current.geometry.coordinates.reverse(), 10);
-          _.delay(function() {
-            thisApp.map.invalidateSize();
-          }, 400);
+          thisApp.map.setView(latLon, 10);
         }
         else {
           layer.setStyle(_.clone(layer.originalOptions));
+          layer.setRadius(5);
         }
       });
 
@@ -531,12 +561,13 @@ require([
     schoolChartDecorator: function(node, currentSchool) {
       var p = currentSchool.properties;
       var chart, chartData;
+      var app = this._config.options.app;
 
       // Add chart
       if (!_.isObject(chart) && _.isObject(currentSchool)) {
         chartData = [{
           name: 'Remedial score over time',
-          color: mpConfig['colors-data'].purple,
+          color: mpConfig['colors-data'].green1,
           data: [
             [ 2006, (p.rem2006) ? p.rem2006 * 100 : null ],
             [ 2007, (p.rem2007) ? p.rem2007 * 100 : null ],
