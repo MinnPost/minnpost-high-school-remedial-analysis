@@ -24,11 +24,11 @@
               </div>
 
               <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>
-              <div class="details-label">Percent of enrollees that required development education (7-year mean)</div>
+              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>
 
               <div class="details-chart-container">
                 <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>
-                <div class="details-label">Percent of enrollees that required development education over time</div>
+                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>
               </div>
 
               <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>
@@ -39,8 +39,8 @@
         </div>
 
         <div class="column-small-100 column-medium-66">
-          <div class="component-label medium-hide">Map of schools</div>
-          <div class="caption medium-hide">Colored by percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the map to see details about that school above.</div>
+          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>
+          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>
 
           <div id="schools-map" class="map"></div>
         </div>
@@ -48,8 +48,8 @@
 
       <div class="row">
         <div class="column-small-100">
-          <div class="component-label medium-hide">Chart of schools</div>
-          <div class="caption medium-hide">Showing percent of enrollees that required development education for schools that had over 100 graduates.  Tap or click the chart to see details about that school above.</div>
+          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>
+          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>
 
           <div class="schools-chart chart"></div>
         </div>
@@ -60,9 +60,13 @@
 
   <div class="footnote-container">
     <div class="footnote">
-      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>
+      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>
 
-        <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>
+      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>
+
+      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>
+
+      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>
 
     </div>
   </div>
