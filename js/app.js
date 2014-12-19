@@ -133,12 +133,20 @@ require([
         var found = _.find(thisApp.schools.features, function(f, fi) {
           return (!!n && f.properties.id === n);
         });
+        var points;
 
         if (found) {
           // Get data for school
           this.set('selectedSchool', found);
+
           // Highlight chart and map
           thisApp.highlight(found);
+
+          // Re focus app if small
+          points = thisApp.responsivePoints();
+          if (points.indexOf('small') !== -1 && points.indexOf('medium') === -1) {
+            thisApp.gotoElement(thisApp.$('.school-details'));
+          }
         }
       });
     },
@@ -353,6 +361,36 @@ require([
           }
         }
       };
+    },
+
+    // Find responsive points that apply
+    responsivePoints: function() {
+      var points = [];
+      var width = $(window).width();
+      var widths = _.sortBy(_.map(mpConfig['responsive-points'], function(r, ri) {
+        return [ri, parseInt(r.replace('px', ''), 10)];
+      }), function(w, wi) {
+        return w[1];
+      });
+
+      _.each(widths, function(w, wi) {
+        if (width > w[1]) {
+          points.push(w[0]);
+        }
+      });
+      return points;
+    },
+
+    // Go to element
+    gotoElement: function(element, speed, offset) {
+      speed = speed || 700;
+      offset = offset || 20;
+      var $target = $(element);
+      var top = $target.offset().top;
+
+      $('html, body').animate({
+        scrollTop: (top - offset)
+      }, speed);
     }
   });
 
