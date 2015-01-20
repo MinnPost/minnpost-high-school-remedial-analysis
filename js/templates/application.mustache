@@ -13,7 +13,8 @@
       <div class="row">
         <div class="column-small-100">
           <div class="search-select-box">
-            <p class="text-center"><em>Search or select schools to see details about that school.</em></p>
+            <p class="text-center medium-show"><em>Search or select schools to see details about that school.</em></p>
+            <p class="text-center medium-hide"><em>See school details by either searching from the list below, tap on a marker in the map, or tap on a line in the chart.</em></p>
 
             <select decorator="chosen" value="{{ searchSelectedSchoolID }}">
               <option value="">None</value>
@@ -28,7 +29,7 @@
         <div class="column-small-100 column-medium-33">
           <div class="school-details">
             {{^selectedSchool}}
-              <div class="text-center"><em>Click or tap on a marker in the map or on a line in the chart to see details about that school.</em></div>
+              <div class="text-center medium-show"><em>Click or tap on a marker in the map or on a line in the chart to see details about that school.</em></div>
             {{/selectedSchool}}
 
             {{#selectedSchool}}

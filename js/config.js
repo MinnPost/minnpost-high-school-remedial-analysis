@@ -29,6 +29,9 @@ require.config({
     },
     'lazyload': {
       exports: 'LazyLoad'
+    },
+    'chosen': {
+      deps: ['jquery']
     }
   },
   baseUrl: 'js',

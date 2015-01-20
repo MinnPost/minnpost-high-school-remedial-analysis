@@ -74,12 +74,18 @@ body .node-unpublished {
   .medium-hide {
     display: none;
   }
+  .medium-show {
+    display: block;
+  }
 
   // Medium breakpoint
   @media screen and (max-width: nth(nth($responsive-points, 3), 2)) {
 
     .medium-hide {
       display: block;
+    }
+    .medium-show {
+      display: none;
     }
 
     #schools-map {
@@ -89,6 +95,11 @@ body .node-unpublished {
     .school-details {
       padding-top: 2em;
       margin-bottom: 2em;
+    }
+
+    .search-select-box {
+      width: 90%;
+      margin-bottom: 0.5em;
     }
   }
 }
