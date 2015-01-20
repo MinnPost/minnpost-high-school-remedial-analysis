@@ -9,6 +9,7 @@
 require([
   'jquery', 'underscore', 'backbone', 'lazyload',
   'ractive', 'ractive-backbone', 'ractive-events-tap',
+  'chosen', 'ractive-decorators-chosen',
   'leaflet', 'highcharts', 'highchartsMore', 'chroma',
   'mpConfig', 'mpFormatters', 'mpHighcharts', 'mpMaps',
   'base',
@@ -17,6 +18,7 @@ require([
   'text!../data/schools.geo.json'
 ], function(
   $, _, Backbone, Lazyload, Ractive, RactiveBackbone, RactiveEventsTap,
+  chosen, RactiveDecoratorsChosen,
   L, Highcharts, HM, chroma, mpConfig, mpFormatters, mpHighcharts, mpMaps,
   Base,
   tApplication, tTooltipChart,
@@ -51,6 +53,10 @@ require([
       this.schools.features = _.filter(this.schools.features, function(f, fi) {
         return f.properties.remMean;
       });
+      // Make collection for select
+      this.schoolNameList = _.sortBy(_.map(this.schools.features, function(f, fi) {
+        return { id: f.properties.id, name: f.properties.name };
+      }), 'name');
 
       // Make color scale, using diverging
       this.colorScale = chroma.scale([
@@ -79,11 +85,14 @@ require([
         template: tApplication,
         data: {
           f: mpFormatters,
-          isReady: false
+          isReady: false,
+          schoolNameList: this.schoolNameList,
+          searchSelectedSchoolID: null
         },
         partials: {
         },
         decorators: {
+          chosen: Ractive.decorators.chosen,
           schoolChart: this.schoolChartDecorator
         },
         app: this
@@ -119,6 +128,7 @@ require([
         },
 
         routeDefault: function() {
+          this.app.resetSelected();
         }
       });
       this.router = new Router();
@@ -135,7 +145,7 @@ require([
         });
         var points;
 
-        if (found) {
+        if (!!n && found && n !== o) {
           // Get data for school
           this.set('selectedSchool', found);
 
@@ -147,8 +157,33 @@ require([
           if (points.indexOf('small') !== -1 && points.indexOf('medium') === -1) {
             thisApp.gotoElement(thisApp.$('.school-details'));
           }
+
+          // Set search box
+          this.set('searchSelectedSchoolID', n);
         }
       });
+
+      // Handle search/select input
+      this.mainView.observe('searchSelectedSchoolID', function(n, o) {
+        var found = _.find(thisApp.schools.features, function(f, fi) {
+          return (!!n && f.properties.id === n);
+        });
+        if (found && n !== o) {
+          thisApp.router.navigate('/school/' + n, { trigger: true });
+        }
+        else if (!found || n === 'None') {
+          thisApp.router.navigate('/', { trigger: true });
+        }
+      });
+
+    },
+
+    // Reset select
+    resetSelected: function() {
+      this.mainView.set('searchSelectedSchoolID', null);
+      this.mainView.set('selectedSchoolID', null);
+      this.mainView.set('selectedSchool', null);
+      this.unhighlight();
     },
 
     // Draw charts
@@ -313,14 +348,35 @@ require([
       });
     },
 
+    // Unhighlight for reset
+    unhighlight: function() {
+      var thisApp = this;
+
+      // Map
+      this.schoolMapLayer.eachLayer(function(layer) {
+        layer.setStyle(_.clone(layer.originalOptions));
+        layer.setRadius(5);
+      });
+      this.map.fitBounds(this.schoolMapLayer.getBounds(), {
+        reset: true
+      });
+
+      // Chart
+      _.each(this.schoolsChart.series[0].data, function(d, di) {
+        // Only redraw if previously highlighted
+        d.update({ color: d.options.originalColor }, (d.color === '#222222'), false);
+      });
+
+    },
+
     // Ractive decorator for making a chart for each school
     schoolChartDecorator: function(node, currentSchool) {
-      var p = currentSchool.properties;
+      var p = (currentSchool) ? currentSchool.properties : undefined;
       var chart, chartData;
       var app = this._config.options.app;
 
       // Add chart
-      if (!_.isObject(chart) && _.isObject(currentSchool)) {
+      if (p && !_.isObject(chart) && _.isObject(currentSchool)) {
         chartData = [{
           name: 'Remedial score over time',
           color: mpConfig['colors-data'].green1,

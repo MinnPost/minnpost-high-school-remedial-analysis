@@ -43,6 +43,8 @@ require.config({
     'ractive': '../bower_components/ractive/ractive-legacy',
     'ractive-backbone': '../bower_components/ractive-backbone/ractive-adaptors-backbone',
     'ractive-events-tap': '../bower_components/ractive-events-tap/ractive-events-tap',
+    'ractive-decorators-chosen': '../bower_components/ractive-decorators-chosen/ractive-decorators-chosen',
+    'chosen': '../bower_components/chosen/chosen.jquery',
     'leaflet': '../bower_components/leaflet/dist/leaflet-src',
     'highcharts': '../bower_components/highcharts-release/highcharts.src',
     'highchartsMore': '../bower_components/highcharts-release/highcharts-more.src',

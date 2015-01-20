@@ -11,6 +11,20 @@
 
     {{#isReady}}
       <div class="row">
+        <div class="column-small-100">
+          <div class="search-select-box">
+            <p class="text-center"><em>Search or select schools to see details about that school.</em></p>
+
+            <select decorator="chosen" value="{{ searchSelectedSchoolID }}">
+              <option value="">None</value>
+
+              {{#schoolNameList}}
+                <option value="{{ id }}">{{ name }}</option>
+              {{/schoolNameList}}
+            </select>
+          </div>
+        </div>
+
         <div class="column-small-100 column-medium-33">
           <div class="school-details">
             {{^selectedSchool}}
