@@ -2101,12 +2101,22 @@ body .node-unpublished {
   height: 8em;
   margin: 0;
 }
+.mp .minnpost-high-school-remedial-analysis-container .search-select-box {
+  width: 60%;
+  margin: 0 auto 2em auto;
+}
 .mp .minnpost-high-school-remedial-analysis-container .medium-hide {
   display: none;
+}
+.mp .minnpost-high-school-remedial-analysis-container .medium-show {
+  display: block;
 }
 @media screen and (max-width: 640px) {
   .mp .minnpost-high-school-remedial-analysis-container .medium-hide {
     display: block;
+  }
+  .mp .minnpost-high-school-remedial-analysis-container .medium-show {
+    display: none;
   }
   .mp .minnpost-high-school-remedial-analysis-container #schools-map {
     height: 27em;
@@ -2114,5 +2124,9 @@ body .node-unpublished {
   .mp .minnpost-high-school-remedial-analysis-container .school-details {
     padding-top: 2em;
     margin-bottom: 2em;
+  }
+  .mp .minnpost-high-school-remedial-analysis-container .search-select-box {
+    width: 90%;
+    margin-bottom: 0.5em;
   }
 }

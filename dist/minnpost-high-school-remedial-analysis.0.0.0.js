@@ -1,5 +1,5 @@
 
-define('text!../bower.json',[],function () { return '{\n  "name": "minnpost-high-school-remedial-analysis",\n  "version": "0.0.0",\n  "main": "index.html",\n  "homepage": "https://github.com/minnpost/minnpost-high-school-remedial-analysis",\n  "repository": {\n    "type": "git",\n    "url": "https://github.com/minnpost/minnpost-high-school-remedial-analysis"\n  },\n  "bugs": "https://github.com/minnpost/minnpost-high-school-remedial-analysis/issues",\n  "license": "MIT",\n  "author": {\n    "name": "MinnPost",\n    "email": "data@minnpost.com"\n  },\n  "dependencies": {\n    "leaflet": "~0.7.3",\n    "jquery-csv": "*",\n    "highcharts-release": "~4.0.4",\n    "ractive": "~0.5.6",\n    "ractive-events-tap": "~0.1.1",\n    "ractive-backbone": "~0.1.1",\n    "requirejs": "~2.1.15",\n    "almond": "~0.3.0",\n    "text": "~2.0.12",\n    "underscore": "~1.7.0",\n    "jquery": "~1.11.1",\n    "backbone": "~1.1.2",\n    "rgrove-lazyload": "*",\n    "minnpost-styles": "master",\n    "chroma-js": "~0.6.1"\n  },\n  "devDependencies": {\n    "qunit": "~1.15.0"\n  },\n  "dependencyMap": {\n    "requirejs": {\n      "rname": "requirejs",\n      "js": [\n        "requirejs/require"\n      ]\n    },\n    "almond": {\n      "rname": "almond",\n      "js": [\n        "almond/almond"\n      ]\n    },\n    "text": {\n      "rname": "text",\n      "js": [\n        "text/text"\n      ]\n    },\n    "jquery": {\n      "rname": "jquery",\n      "js": [\n        "jquery/dist/jquery"\n      ],\n      "returns": "$"\n    },\n    "underscore": {\n      "rname": "underscore",\n      "js": [\n        "underscore/underscore"\n      ],\n      "returns": "_"\n    },\n    "backbone": {\n      "rname": "backbone",\n      "js": [\n        "backbone/backbone"\n      ],\n      "returns": "Backbone"\n    },\n    "rgrove-lazyload": {\n      "rname": "lazyload",\n      "js": [\n        "rgrove-lazyload/lazyload"\n      ],\n      "returns": "Lazyload"\n    },\n    "ractive": {\n      "rname": "ractive",\n      "js": [\n        "ractive/ractive-legacy"\n      ],\n      "returns": "Ractive"\n    },\n    "ractive-backbone": {\n      "rname": "ractive-backbone",\n      "js": [\n        "ractive-backbone/ractive-adaptors-backbone"\n      ],\n      "returns": "RactiveBackbone"\n    },\n    "ractive-events-tap": {\n      "rname": "ractive-events-tap",\n      "js": [\n        "ractive-events-tap/ractive-events-tap"\n      ],\n      "returns": "RactiveEventsTap"\n    },\n    "leaflet": {\n      "rname": "leaflet",\n      "js": [\n        "leaflet/dist/leaflet-src"\n      ],\n      "css": [\n        "leaflet/dist/leaflet"\n      ],\n      "images": [\n        "leaflet/dist/images"\n      ],\n      "returns": "L"\n    },\n    "highcharts-release": {\n      "rname": "highcharts",\n      "js": [\n        "highcharts-release/highcharts.src"\n      ],\n      "returns": "Highcharts"\n    },\n    "highcharts-release-more": {\n      "rname": "highchartsMore",\n      "js": [\n        "highcharts-release/highcharts-more.src"\n      ],\n      "returns": "HighchartsMore"\n    },\n    "chroma-js": {\n      "rname": "chroma",\n      "js": [\n        "chroma-js/chroma"\n      ],\n      "returns": "chroma"\n    },\n    "minnpost-styles": {\n      "rname": "mpStyles",\n      "css": [\n        "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css",\n        "minnpost-styles/dist/minnpost-styles"\n      ],\n      "sass": [\n        "minnpost-styles/styles/main"\n      ]\n    },\n    "mpConfig": {\n      "rname": "mpConfig",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.config"\n      ],\n      "returns": "mpConfig"\n    },\n    "mpFormatters": {\n      "rname": "mpFormatters",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.formatters"\n      ],\n      "returns": "mpFormatters"\n    },\n    "mpHighcharts": {\n      "rname": "mpHighcharts",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.highcharts"\n      ],\n      "returns": "mpHighcharts"\n    },\n    "mpMaps": {\n      "rname": "mpMaps",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.maps"\n      ],\n      "returns": "mpMaps"\n    }\n  },\n  "resolutions": {\n    "underscore": ">=1.5.0"\n  }\n}\n';});
+define('text!../bower.json',[],function () { return '{\n  "name": "minnpost-high-school-remedial-analysis",\n  "version": "0.0.0",\n  "main": "index.html",\n  "homepage": "https://github.com/minnpost/minnpost-high-school-remedial-analysis",\n  "repository": {\n    "type": "git",\n    "url": "https://github.com/minnpost/minnpost-high-school-remedial-analysis"\n  },\n  "bugs": "https://github.com/minnpost/minnpost-high-school-remedial-analysis/issues",\n  "license": "MIT",\n  "author": {\n    "name": "MinnPost",\n    "email": "data@minnpost.com"\n  },\n  "dependencies": {\n    "leaflet": "~0.7.3",\n    "jquery-csv": "*",\n    "highcharts-release": "~4.0.4",\n    "ractive": "~0.5.6",\n    "ractive-events-tap": "~0.1.1",\n    "ractive-backbone": "~0.1.1",\n    "requirejs": "~2.1.15",\n    "almond": "~0.3.0",\n    "text": "~2.0.12",\n    "underscore": "~1.7.0",\n    "jquery": "~1.11.1",\n    "backbone": "~1.1.2",\n    "rgrove-lazyload": "*",\n    "minnpost-styles": "master",\n    "chroma-js": "~0.6.1",\n    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.3.0/chosen_v1.3.0.zip",\n    "ractive-decorators-chosen": "https://github.com/kalcifer/ractive-decorators-chosen.git#master"\n  },\n  "devDependencies": {\n    "qunit": "~1.15.0"\n  },\n  "dependencyMap": {\n    "requirejs": {\n      "rname": "requirejs",\n      "js": [\n        "requirejs/require"\n      ]\n    },\n    "almond": {\n      "rname": "almond",\n      "js": [\n        "almond/almond"\n      ]\n    },\n    "text": {\n      "rname": "text",\n      "js": [\n        "text/text"\n      ]\n    },\n    "jquery": {\n      "rname": "jquery",\n      "js": [\n        "jquery/dist/jquery"\n      ],\n      "returns": "$"\n    },\n    "underscore": {\n      "rname": "underscore",\n      "js": [\n        "underscore/underscore"\n      ],\n      "returns": "_"\n    },\n    "backbone": {\n      "rname": "backbone",\n      "js": [\n        "backbone/backbone"\n      ],\n      "returns": "Backbone"\n    },\n    "rgrove-lazyload": {\n      "rname": "lazyload",\n      "js": [\n        "rgrove-lazyload/lazyload"\n      ],\n      "returns": "Lazyload"\n    },\n    "ractive": {\n      "rname": "ractive",\n      "js": [\n        "ractive/ractive-legacy"\n      ],\n      "returns": "Ractive"\n    },\n    "ractive-backbone": {\n      "rname": "ractive-backbone",\n      "js": [\n        "ractive-backbone/ractive-adaptors-backbone"\n      ],\n      "returns": "RactiveBackbone"\n    },\n    "ractive-events-tap": {\n      "rname": "ractive-events-tap",\n      "js": [\n        "ractive-events-tap/ractive-events-tap"\n      ],\n      "returns": "RactiveEventsTap"\n    },\n    "leaflet": {\n      "rname": "leaflet",\n      "js": [\n        "leaflet/dist/leaflet-src"\n      ],\n      "css": [\n        "leaflet/dist/leaflet"\n      ],\n      "images": [\n        "leaflet/dist/images"\n      ],\n      "returns": "L"\n    },\n    "highcharts-release": {\n      "rname": "highcharts",\n      "js": [\n        "highcharts-release/highcharts.src"\n      ],\n      "returns": "Highcharts"\n    },\n    "highcharts-release-more": {\n      "rname": "highchartsMore",\n      "js": [\n        "highcharts-release/highcharts-more.src"\n      ],\n      "returns": "HighchartsMore"\n    },\n    "chroma-js": {\n      "rname": "chroma",\n      "js": [\n        "chroma-js/chroma"\n      ],\n      "returns": "chroma"\n    },\n    "chosen": {\n      "rname": "chosen",\n      "js": [\n        "chosen/chosen.jquery"\n      ],\n      "css": [\n        "chosen/chosen"\n      ],\n      "returns": "chosen"\n    },\n    "ractive-decorators-chosen": {\n      "rname": "ractive-decorators-chosen",\n      "js": [\n        "ractive-decorators-chosen/ractive-decorators-chosen"\n      ],\n      "returns": "RactiveDecoratorsChosen"\n    },\n    "minnpost-styles": {\n      "rname": "mpStyles",\n      "css": [\n        "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css",\n        "minnpost-styles/dist/minnpost-styles"\n      ],\n      "sass": [\n        "minnpost-styles/styles/main"\n      ]\n    },\n    "mpConfig": {\n      "rname": "mpConfig",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.config"\n      ],\n      "returns": "mpConfig"\n    },\n    "mpFormatters": {\n      "rname": "mpFormatters",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.formatters"\n      ],\n      "returns": "mpFormatters"\n    },\n    "mpHighcharts": {\n      "rname": "mpHighcharts",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.highcharts"\n      ],\n      "returns": "mpHighcharts"\n    },\n    "mpMaps": {\n      "rname": "mpMaps",\n      "js": [\n        "minnpost-styles/dist/minnpost-styles.maps"\n      ],\n      "returns": "mpMaps"\n    }\n  },\n  "resolutions": {\n    "underscore": ">=1.5.0"\n  }\n}\n';});
 
 /**
  * Base class(es) for applications.
@@ -242,7 +242,7 @@ define('base',['jquery', 'underscore', 'backbone', 'lazyload', 'mpFormatters', '
 });
 
 
-define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    {{^isReady}}\n      <div class="loading-container">\n        <i class="loading"></i> Loading...\n      </div>\n    {{/isReady}}\n\n    {{#isReady}}\n      <div class="row">\n        <div class="column-small-100 column-medium-33">\n          <div class="school-details">\n            {{^selectedSchool}}\n              <div class="text-center"><em>Click or tap on a marker in the map or on a line in the chart to see details about that school.</em></div>\n            {{/selectedSchool}}\n\n            {{#selectedSchool}}\n              <div class="component-label">{{ properties.name }}</div>\n              <div class="space-bottom small school-district">\n                {{ properties.district_name }} school district\n              </div>\n\n              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>\n\n              <div class="details-chart-container">\n                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>\n              </div>\n\n              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n              <div class="details-label">4-year graduation rate</div>\n\n            {{/selectedSchool}}\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-66">\n          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>\n\n          <div id="schools-map" class="map"></div>\n        </div>\n      </div>\n\n      <div class="row">\n        <div class="column-small-100">\n          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>\n\n          <div class="schools-chart chart"></div>\n        </div>\n      </div>\n\n    </div>\n  {{/isReady}}\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>\n\n      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>\n\n      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n    </div>\n  </div>\n</div>\n';});
+define('text!templates/application.mustache',[],function () { return '<div class="application-container">\n  <div class="message-container"></div>\n\n  <div class="content-container">\n\n    {{^isReady}}\n      <div class="loading-container">\n        <i class="loading"></i> Loading...\n      </div>\n    {{/isReady}}\n\n    {{#isReady}}\n      <div class="row">\n        <div class="column-small-100">\n          <div class="search-select-box">\n            <p class="text-center medium-show"><em>Search or select schools to see details about that school.</em></p>\n            <p class="text-center medium-hide"><em>See school details by either searching from the list below, tap on a marker in the map, or tap on a line in the chart.</em></p>\n\n            <select decorator="chosen" value="{{ searchSelectedSchoolID }}">\n              <option value="">None</value>\n\n              {{#schoolNameList}}\n                <option value="{{ id }}">{{ name }}</option>\n              {{/schoolNameList}}\n            </select>\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-33">\n          <div class="school-details">\n            {{^selectedSchool}}\n              <div class="text-center medium-show"><em>Click or tap on a marker in the map or on a line in the chart to see details about that school.</em></div>\n            {{/selectedSchool}}\n\n            {{#selectedSchool}}\n              <div class="component-label">{{ properties.name }}</div>\n              <div class="space-bottom small school-district">\n                {{ properties.district_name }} school district\n              </div>\n\n              <div class="xlarge">{{ f.percent(properties.remMean, 0) }}</div>\n              <div class="details-label">Percent of enrollees that required development education&dagger; (7-year mean)</div>\n\n              <div class="details-chart-container">\n                <div class="chart details-chart" decorator="schoolChart:{{ this }}"></div>\n                <div class="details-label">Percent of enrollees that required development education&dagger; over time</div>\n              </div>\n\n              <div class="large">{{ f.percent(properties.grad_rate, 0) }}</div>\n              <div class="details-label">4-year graduation rate</div>\n\n            {{/selectedSchool}}\n          </div>\n        </div>\n\n        <div class="column-small-100 column-medium-66">\n          <div class="component-label medium-hide">Map of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the map to see details about that school above.</div>\n\n          <div id="schools-map" class="map"></div>\n        </div>\n      </div>\n\n      <div class="row">\n        <div class="column-small-100">\n          <div class="component-label medium-hide">Chart of all schools in Minnesota&Dagger;</div>\n          <div class="caption medium-hide">Colored by the 7-year mean of the percent of enrollees that required development education&dagger;.  Tap or click the chart to see details about that school above.</div>\n\n          <div class="schools-chart chart"></div>\n        </div>\n      </div>\n\n    </div>\n  {{/isReady}}\n\n  <div class="footnote-container">\n    <div class="footnote">\n      <p>&dagger;Percent of enrollees that required development education in the first 2 years of college.  This data is limited to Minnesota college insitutions.</p>\n\n      <p>&Dagger;Showing only schools in Minnesota that graduated at least 100 students from 2006-2012.</p>\n\n      <p>Some map data © OpenStreetMap contributors; licensed under the <a href="http://www.openstreetmap.org/copyright" target="_blank">Open Data Commons Open Database License</a>.  Some map design © MapBox; licensed according to the <a href="http://mapbox.com/tos/" target="_blank">MapBox Terms of Service</a>.  Location geocoding provided by <a href="http://www.mapquest.com/" target="_blank">Mapquest</a> and is not guaranteed to be accurate.</p>\n\n      <p>Some code, techniques, and data on <a href="https://github.com/minnpost/minnpost-high-school-remedial-analysis" target="_blank">Github</a>.</p>\n\n    </div>\n  </div>\n</div>\n';});
 
 
 define('text!templates/tooltip-chart.underscore',[],function () { return '<%= p.name %>: <strong><%= f.percent(p.remMean, 0) %></strong>\n';});
@@ -261,6 +261,7 @@ define('text!../data/schools.geo.json',[],function () { return '{"type":"Feature
 require([
   'jquery', 'underscore', 'backbone', 'lazyload',
   'ractive', 'ractive-backbone', 'ractive-events-tap',
+  'chosen', 'ractive-decorators-chosen',
   'leaflet', 'highcharts', 'highchartsMore', 'chroma',
   'mpConfig', 'mpFormatters', 'mpHighcharts', 'mpMaps',
   'base',
@@ -269,6 +270,7 @@ require([
   'text!../data/schools.geo.json'
 ], function(
   $, _, Backbone, Lazyload, Ractive, RactiveBackbone, RactiveEventsTap,
+  chosen, RactiveDecoratorsChosen,
   L, Highcharts, HM, chroma, mpConfig, mpFormatters, mpHighcharts, mpMaps,
   Base,
   tApplication, tTooltipChart,
@@ -303,6 +305,10 @@ require([
       this.schools.features = _.filter(this.schools.features, function(f, fi) {
         return f.properties.remMean;
       });
+      // Make collection for select
+      this.schoolNameList = _.sortBy(_.map(this.schools.features, function(f, fi) {
+        return { id: f.properties.id, name: f.properties.name };
+      }), 'name');
 
       // Make color scale, using diverging
       this.colorScale = chroma.scale([
@@ -331,11 +337,14 @@ require([
         template: tApplication,
         data: {
           f: mpFormatters,
-          isReady: false
+          isReady: false,
+          schoolNameList: this.schoolNameList,
+          searchSelectedSchoolID: null
         },
         partials: {
         },
         decorators: {
+          chosen: Ractive.decorators.chosen,
           schoolChart: this.schoolChartDecorator
         },
         app: this
@@ -371,6 +380,7 @@ require([
         },
 
         routeDefault: function() {
+          this.app.resetSelected();
         }
       });
       this.router = new Router();
@@ -387,7 +397,7 @@ require([
         });
         var points;
 
-        if (found) {
+        if (!!n && found && n !== o) {
           // Get data for school
           this.set('selectedSchool', found);
 
@@ -399,8 +409,33 @@ require([
           if (points.indexOf('small') !== -1 && points.indexOf('medium') === -1) {
             thisApp.gotoElement(thisApp.$('.school-details'));
           }
+
+          // Set search box
+          this.set('searchSelectedSchoolID', n);
         }
       });
+
+      // Handle search/select input
+      this.mainView.observe('searchSelectedSchoolID', function(n, o) {
+        var found = _.find(thisApp.schools.features, function(f, fi) {
+          return (!!n && f.properties.id === n);
+        });
+        if (found && n !== o) {
+          thisApp.router.navigate('/school/' + n, { trigger: true });
+        }
+        else if (!found || n === 'None') {
+          thisApp.router.navigate('/', { trigger: true });
+        }
+      });
+
+    },
+
+    // Reset select
+    resetSelected: function() {
+      this.mainView.set('searchSelectedSchoolID', null);
+      this.mainView.set('selectedSchoolID', null);
+      this.mainView.set('selectedSchool', null);
+      this.unhighlight();
     },
 
     // Draw charts
@@ -565,14 +600,35 @@ require([
       });
     },
 
+    // Unhighlight for reset
+    unhighlight: function() {
+      var thisApp = this;
+
+      // Map
+      this.schoolMapLayer.eachLayer(function(layer) {
+        layer.setStyle(_.clone(layer.originalOptions));
+        layer.setRadius(5);
+      });
+      this.map.fitBounds(this.schoolMapLayer.getBounds(), {
+        reset: true
+      });
+
+      // Chart
+      _.each(this.schoolsChart.series[0].data, function(d, di) {
+        // Only redraw if previously highlighted
+        d.update({ color: d.options.originalColor }, (d.color === '#222222'), false);
+      });
+
+    },
+
     // Ractive decorator for making a chart for each school
     schoolChartDecorator: function(node, currentSchool) {
-      var p = currentSchool.properties;
+      var p = (currentSchool) ? currentSchool.properties : undefined;
       var chart, chartData;
       var app = this._config.options.app;
 
       // Add chart
-      if (!_.isObject(chart) && _.isObject(currentSchool)) {
+      if (p && !_.isObject(chart) && _.isObject(currentSchool)) {
         chartData = [{
           name: 'Remedial score over time',
           color: mpConfig['colors-data'].green1,
