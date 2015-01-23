@@ -224,6 +224,10 @@ require([
             labels: {
               enabled: false,
               rotation: -45
+            },
+            title: {
+              enabled: true,
+              text: 'Minnesota high schools'
             }
           },
           tooltip: {
